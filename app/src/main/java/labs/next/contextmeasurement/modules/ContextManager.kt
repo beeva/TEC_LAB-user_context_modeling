@@ -2,10 +2,7 @@ package labs.next.contextmeasurement.modules
 
 import android.content.Context
 import android.util.Log
-import labs.next.contextmeasurement.modules.sensors.Bluetooth
-import labs.next.contextmeasurement.modules.sensors.Location
-import labs.next.contextmeasurement.modules.sensors.Network
-import labs.next.contextmeasurement.modules.sensors.Wifi
+import labs.next.contextmeasurement.modules.sensors.*
 
 class ContextManager {
     private var context: Context
@@ -13,6 +10,7 @@ class ContextManager {
     private var network: Network
     private var bluetooth: Bluetooth
     private var location: Location
+    //private var userActiviy: UserActivity
 
     constructor(ctx: Context) {
         context = ctx
@@ -20,6 +18,7 @@ class ContextManager {
         network = Network(context)
         bluetooth = Bluetooth(context)
         location = Location(context)
+        //userActiviy = UserActivity(context)
     }
 
     fun startListening() {
@@ -43,6 +42,10 @@ class ContextManager {
             val long = lastLocation?.get("long")
             Log.d("Service: Location - Current location:", "$lat, $long")
         }
+
+        /*userActiviy.start { activity ->
+            Log.d("Service: UserActivity - Current activity:", activity)
+        }*/
     }
 
     fun stopListening() {

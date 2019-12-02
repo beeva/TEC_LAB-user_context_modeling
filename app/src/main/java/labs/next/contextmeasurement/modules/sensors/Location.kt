@@ -45,6 +45,7 @@ class Location(
         run = true
         callback = onResult
 
+
         fusedClient.lastLocation.addOnSuccessListener { location ->
             results = hashMapOf(
                 "lat" to location.latitude,
