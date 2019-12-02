@@ -84,7 +84,7 @@ class Bluetooth (
             scope.cancel()
             context.unregisterReceiver(scanReceiver)
         } catch (e: Exception) {
-            Log.d("Bluetooth", e.toString())
+            Log.d("Error stopping Bluetooth Service:", e.toString())
         }
     }
 

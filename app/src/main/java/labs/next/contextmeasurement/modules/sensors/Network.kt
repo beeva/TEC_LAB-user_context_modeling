@@ -43,7 +43,7 @@ class Network(
             scope.cancel()
             connectivityManager.unregisterNetworkCallback(networkCallback)
         } catch (e: Exception) {
-            Log.d("Wifi", e.toString())
+            Log.d("Error stopping Network Service:", e.toString())
         }
     }
 

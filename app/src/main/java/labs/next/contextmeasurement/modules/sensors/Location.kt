@@ -65,7 +65,7 @@ class Location(
             fusedClient.removeLocationUpdates(onChange)
             scope.cancel()
         } catch (e: Exception) {
-            Log.d("Wifi", e.toString())
+            Log.d("Error stopping Location Service:", e.toString())
         }
     }
 

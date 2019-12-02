@@ -65,7 +65,7 @@ class Wifi (
             scope.cancel()
             context.unregisterReceiver(wifiScanReceiver)
         } catch (e: Exception) {
-            Log.d("Wifi", e.toString())
+            Log.d("Error stopping Wifi Service:", e.toString())
         }
     }
 
