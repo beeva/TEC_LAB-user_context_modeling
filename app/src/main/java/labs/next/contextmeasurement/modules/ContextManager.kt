@@ -38,9 +38,9 @@ class ContextManager {
             Log.d("Service: Bluetooth - Connected device type", this.bluetooth.connectionType.toString())
         }
 
-        location.start { loc ->
-            val lat = loc?.get("lat")
-            val long = loc?.get("long")
+        location.start { lastLocation ->
+            val lat = lastLocation?.get("lat")
+            val long = lastLocation?.get("long")
             Log.d("Service: Location - Current location:", "$lat, $long")
         }
     }
