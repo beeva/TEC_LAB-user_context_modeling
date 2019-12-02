@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorDark">#212121</color>
+
+    <color name="colorRunning">#d32f2f</color>
+    <color name="colorStopped">#388E3C</color>
+
+    <color name="statusBar">#E0E0E0</color>
+    <color name="background">#E0E0E0</color>
+    <color name="navigationBar">#E0E0E0</color>
+</resources>
