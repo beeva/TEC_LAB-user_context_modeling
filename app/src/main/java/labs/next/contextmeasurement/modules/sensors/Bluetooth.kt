@@ -14,22 +14,22 @@ import kotlinx.coroutines.*
 class Bluetooth (
     override var context: Context,
     override var minRefreshRate: Long = 5000
-) : Sensor<ArrayList<String>> {
+) : Sensor<ArrayList<String?>> {
     var MEDIA: String = "media"
     var OTHER: String = "other"
-    var NULL: String = "null"
-    var connectionType: String = NULL
+    var connectionType: String? = null
     var isConnected: Boolean = false
 
     private var run: Boolean = false
     private var scope: CoroutineScope = MainScope()
-    private var results: ArrayList<String> = ArrayList<String>()
+    private var results: ArrayList<String?> = ArrayList()
+    private lateinit var onResult: (ArrayList<String?>) -> Unit
 
     private var manager: BluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
     private var adapter: BluetoothAdapter = manager.adapter
     private val profileListener = object : BluetoothProfile.ServiceListener {
         override fun onServiceDisconnected(profile: Int) {
-            connectionType = NULL
+            connectionType = null
             isConnected = false
         }
 
@@ -56,13 +56,11 @@ class Bluetooth (
         }
     }
 
-    lateinit var onResult: (ArrayList<String>) -> Unit
-
     override fun isAvailable(): Boolean {
         return adapter.isEnabled
     }
 
-    override fun start(onResult: (res: ArrayList<String>) -> Unit) {
+    override fun start(onResult: (res: ArrayList<String?>) -> Unit) {
         this.onResult = onResult
         this.run = true
 

@@ -14,9 +14,6 @@ class Wifi (
     override var context: Context,
     override var minRefreshRate: Long = 5000
 ) : Sensor<ArrayList<String>> {
-    private var run: Boolean = false
-    private var scope: CoroutineScope = MainScope()
-
     val connectedNetwork: String
         get() {
             val wifiInfo = wifiManager.getConnectionInfo();
@@ -26,6 +23,10 @@ class Wifi (
 
             return ""
         }
+
+    private var run: Boolean = false
+    private var scope: CoroutineScope = MainScope()
+    private lateinit var callback: (ArrayList<String>) -> Unit
 
     private var wifiManager: WifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
     private var wifiScanReceiver = object : BroadcastReceiver() {
@@ -38,20 +39,18 @@ class Wifi (
                     results.add(network.SSID)
                 }
 
-                onResult(results)
+                callback(results)
             }
         }
     }
-
-    lateinit var onResult: (ArrayList<String>) -> Unit
 
     override fun isAvailable(): Boolean {
         return wifiManager.isWifiEnabled
     }
 
     override fun start(onResult: (ArrayList<String>) -> Unit) {
-        this.onResult = onResult
-        this.run = true
+        callback = onResult
+        run = true
 
         var intent = IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         context.registerReceiver(wifiScanReceiver, intent)
@@ -74,7 +73,7 @@ class Wifi (
         withContext(Dispatchers.IO) {
             while(run) {
                 val success = wifiManager.startScan()
-                if (!success) onResult(ArrayList())
+                if (!success) callback(ArrayList())
 
                 Thread.sleep(minRefreshRate)
             }

@@ -3,6 +3,7 @@ package labs.next.contextmeasurement.modules
 import android.content.Context
 import android.util.Log
 import labs.next.contextmeasurement.modules.sensors.Bluetooth
+import labs.next.contextmeasurement.modules.sensors.Location
 import labs.next.contextmeasurement.modules.sensors.Network
 import labs.next.contextmeasurement.modules.sensors.Wifi
 
@@ -11,34 +12,43 @@ class ContextManager {
     private var wifi: Wifi
     private var network: Network
     private var bluetooth: Bluetooth
+    private var location: Location
 
     constructor(ctx: Context) {
         context = ctx
         wifi = Wifi(context)
         network = Network(context)
         bluetooth = Bluetooth(context)
+        location = Location(context)
     }
 
     fun startListening() {
-        this.network.start {
-            Log.d("Service: Network", it)
+        network.start { connectionType ->
+            Log.d("Service: Network - Connected network type:", connectionType)
         }
 
-        this.wifi.start {
-            Log.d("Service: Wifi Connection", this.wifi.connectedNetwork)
-            Log.d("Service: Wifi Networks", it.toString())
+        wifi.start { networks ->
+            Log.d("Service: Wifi - Connected network SSID:", this.wifi.connectedNetwork)
+            Log.d("Service: Wifi - Available networks:", networks.toString())
         }
 
-        this.bluetooth.start {
-            Log.d("Service: Bluetooth devices", it.toString())
-            Log.d("Service: Bluetooth connection", this.bluetooth.isConnected.toString())
-            Log.d("Service: Bluetooth type", this.bluetooth.connectionType)
+        bluetooth.start { devices ->
+            Log.d("Service: Bluetooth - Devices List:", devices.toString())
+            Log.d("Service: Bluetooth - Connected to device:", this.bluetooth.isConnected.toString())
+            Log.d("Service: Bluetooth - Connected device type", this.bluetooth.connectionType.toString())
+        }
+
+        location.start { loc ->
+            val lat = loc?.get("lat")
+            val long = loc?.get("long")
+            Log.d("Service: Location - Current location:", "$lat, $long")
         }
     }
 
     fun stopListening() {
-        this.wifi.stop()
-        this.network.stop()
-        this.bluetooth.stop()
+        wifi.stop()
+        network.stop()
+        bluetooth.stop()
+        location.stop()
     }
 }

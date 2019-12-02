@@ -16,6 +16,8 @@ class Network(
 
     private var run: Boolean = false
     private var scope: CoroutineScope = MainScope()
+    private lateinit var callback: (String) -> Unit
+
     private val connectivityManager: ConnectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     private var networkCallback = object : ConnectivityManager.NetworkCallback() {
@@ -25,14 +27,12 @@ class Network(
         }
     }
 
-    lateinit var onResult: (String) -> Unit
-
     override fun isAvailable(): Boolean {
         return true
     }
 
     override fun start(onResult: (String) -> Unit) {
-        this.onResult = onResult
+        callback = onResult
         connectivityManager.registerDefaultNetworkCallback(networkCallback)
     }
 
@@ -50,7 +50,7 @@ class Network(
     private suspend fun loop() {
         withContext(Dispatchers.IO) {
             while(run) {
-                onResult(if (connectivityManager.isActiveNetworkMetered) CELL else WIFI)
+                callback(if (connectivityManager.isActiveNetworkMetered) CELL else WIFI)
                 Thread.sleep(minRefreshRate)
             }
         }
