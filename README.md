@@ -1,2 +1,0 @@
-# TEC_LAB-user_context_modeling
-TEC_LAB-user_context_modeling
