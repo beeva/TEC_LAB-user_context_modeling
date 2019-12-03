@@ -1,4 +1,4 @@
-package labs.next.contextmeasurement.modules.service
+package labs.next.contextmeasurement.modules
 
 import android.os.Build
 import android.os.IBinder
@@ -13,7 +13,6 @@ import androidx.core.app.NotificationCompat
 
 import labs.next.contextmeasurement.R
 import labs.next.contextmeasurement.MainActivity
-import labs.next.contextmeasurement.modules.ContextManager
 
 class ForegroundService : Service() {
     private val CHANNEL_ID = "ForegroundService"

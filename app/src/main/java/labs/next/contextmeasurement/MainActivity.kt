@@ -6,7 +6,7 @@ import android.view.View
 
 import kotlinx.android.synthetic.main.activity_main.toggleService
 import kotlinx.android.synthetic.main.activity_main.serviceStatus
-import labs.next.contextmeasurement.modules.service.ForegroundService
+import labs.next.contextmeasurement.modules.ForegroundService
 
 
 class MainActivity : AppCompatActivity() {
