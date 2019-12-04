@@ -28,17 +28,16 @@ class Location(
     }
 
     override fun isAvailable(): Boolean {
-        var gps = false
-        var net = false
-
         try {
-            gps = manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            net = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            val gps = manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            val net = manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+
+            return gps or net
         } catch (e: Exception) {
-            return false
+            Log.d("Error with Location Service", e.toString())
         }
 
-        return gps or net
+        return false
     }
 
     override fun start(onResult: (res: Map<String, Double>?) -> Unit) {
@@ -66,7 +65,7 @@ class Location(
             fusedClient.removeLocationUpdates(onChange)
             scope.cancel()
         } catch (e: Exception) {
-            Log.d("Error stopping Location Service:", e.toString())
+            Log.d("Error stopping Location Service", e.toString())
         }
     }
 
