@@ -1,5 +1,6 @@
 package labs.next.contextmeasurement.modules.sensors
 
+import android.Manifest
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -10,7 +11,11 @@ import kotlinx.coroutines.*
 
 class UserActivity(
     override var context: Context,
-    override var minRefreshRate: Long = 5000
+    override var minRefreshRate: Long = 5000,
+    override var permissions: Array<String> = arrayOf(
+        Manifest.permission.ACTIVITY_RECOGNITION,
+        "com.google.android.gms.permission.ACTIVITY_RECOGNITION"
+    )
 ) : Sensor<String?> {
     var VEHICLE = "vehicle"
     var WALKING = "walking"

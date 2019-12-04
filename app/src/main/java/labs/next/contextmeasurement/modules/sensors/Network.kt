@@ -1,5 +1,6 @@
 package labs.next.contextmeasurement.modules.sensors
 
+import android.Manifest
 import android.util.Log
 import android.content.Context
 import android.net.Network
@@ -9,7 +10,14 @@ import kotlinx.coroutines.*
 
 class Network(
     override var context: Context,
-    override var minRefreshRate: Long = 5000
+    override var minRefreshRate: Long = 5000,
+    override var permissions: Array<String> = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_NETWORK_STATE,
+        Manifest.permission.ACCESS_WIFI_STATE,
+        Manifest.permission.CHANGE_WIFI_STATE
+    )
 ) : Sensor<String> {
     var CELL: String = "cellular"
     var WIFI: String = "wifi"

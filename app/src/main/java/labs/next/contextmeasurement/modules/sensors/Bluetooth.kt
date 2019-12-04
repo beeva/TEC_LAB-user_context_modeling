@@ -1,5 +1,6 @@
 package labs.next.contextmeasurement.modules.sensors
 
+import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
@@ -13,7 +14,12 @@ import kotlinx.coroutines.*
 
 class Bluetooth (
     override var context: Context,
-    override var minRefreshRate: Long = 5000
+    override var minRefreshRate: Long = 5000,
+    override var permissions: Array<String> = arrayOf(
+        Manifest.permission.BLUETOOTH,
+        Manifest.permission.BLUETOOTH_ADMIN,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
 ) : Sensor<ArrayList<String?>> {
     var MEDIA: String = "media"
     var OTHER: String = "other"

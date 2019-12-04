@@ -1,5 +1,6 @@
 package labs.next.contextmeasurement.modules.sensors
 
+import android.Manifest
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import kotlinx.coroutines.*
@@ -7,6 +8,9 @@ import kotlinx.coroutines.*
 class UsageStats (
     override var context: Context,
     override var minRefreshRate: Long = 5000,
+    override var permissions: Array<String> = arrayOf(
+        Manifest.permission.PACKAGE_USAGE_STATS
+    ),
     var statsInterval: Long = 60000
 ) : Sensor<HashMap<String, Long>> {
     private var run: Boolean = false

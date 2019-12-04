@@ -1,5 +1,6 @@
 package labs.next.contextmeasurement.modules
 
+import android.Manifest
 import android.os.Build
 import android.os.IBinder
 import android.content.Intent
@@ -8,8 +9,10 @@ import android.app.Service
 import android.app.PendingIntent
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.pm.PackageManager
 
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 
 import labs.next.contextmeasurement.R
 import labs.next.contextmeasurement.MainActivity
@@ -38,6 +41,13 @@ class ForegroundService : Service() {
     override fun onCreate() {
         super.onCreate()
         contextManager = ContextManager(this)
+
+        contextManager.permissions.forEach { permission ->
+            if (ContextCompat.checkSelfPermission(this, permission)
+                != PackageManager.PERMISSION_GRANTED) {
+                 //TODO
+            }
+        }
     }
 
     override fun onBind(intent: Intent): IBinder? {

@@ -1,14 +1,19 @@
 package labs.next.contextmeasurement.modules.sensors
 
+import android.Manifest
+import android.util.Log
 import android.content.Context
 import android.location.LocationManager
-import android.util.Log
 import com.google.android.gms.location.*
 import kotlinx.coroutines.*
 
 class Location(
     override var context: Context,
-    override var minRefreshRate: Long = 5000
+    override var minRefreshRate: Long = 5000,
+    override var permissions: Array<String> = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
 ) : Sensor<Map<String, Double>?> {
     private var run: Boolean = false
     private var scope: CoroutineScope = MainScope()

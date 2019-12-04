@@ -16,9 +16,9 @@ class Wifi (
 ) : Sensor<ArrayList<String>> {
     val connectedNetwork: String
         get() {
-            val wifiInfo = wifiManager.getConnectionInfo();
-            if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
-                return wifiInfo.getSSID()
+            val wifiInfo = wifiManager.connectionInfo;
+            if (wifiInfo.supplicantState == SupplicantState.COMPLETED) {
+                return wifiInfo.ssid
             }
 
             return ""
@@ -34,9 +34,9 @@ class Wifi (
             val success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false)
             if (success) {
                 val results: ArrayList<String> = ArrayList()
-                val networks = wifiManager.scanResults as ArrayList<ScanResult>
-                for (network in networks) {
-                    results.add(network.SSID)
+                wifiManager.scanResults.forEach{ network ->
+                    if (network.SSID != null && network.SSID != "")
+                        results.add(network.SSID)
                 }
 
                 callback(results)
