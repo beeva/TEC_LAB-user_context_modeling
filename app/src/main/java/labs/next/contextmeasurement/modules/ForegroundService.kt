@@ -1,18 +1,13 @@
 package labs.next.contextmeasurement.modules
 
 import android.Manifest
-import android.os.Build
-import android.os.IBinder
+import android.app.*
 import android.content.Intent
 import android.content.Context
-import android.app.Service
-import android.app.PendingIntent
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.pm.PackageManager
+import android.content.ServiceConnection
+import android.os.*
 
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 
 import labs.next.contextmeasurement.R
 import labs.next.contextmeasurement.MainActivity
@@ -22,17 +17,30 @@ class ForegroundService : Service() {
     private val TAG = "Context Measure Service"
     private lateinit var contextManager: ContextManager
 
+    private var binder : ServiceBinder = ServiceBinder()
+    inner class ServiceBinder : Binder() {
+        fun getService() : ForegroundService {
+            return this@ForegroundService
+        }
+    }
+
+    val permissions: Array<String>
+        get() { return contextManager.permissions }
+
     companion object {
         var isRunning: Boolean = false
 
-        fun start(context: Context) {
+        fun start(context: Context, connection: ServiceConnection) {
             val intent = Intent(context, ForegroundService::class.java)
             context.startService(intent)
+            context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+
             isRunning = true
         }
 
-        fun stop(context: Context) {
+        fun stop(context: Context, connection: ServiceConnection) {
             val intent = Intent(context, ForegroundService::class.java)
+            context.unbindService(connection)
             context.stopService(intent)
             isRunning = false
         }
@@ -41,17 +49,10 @@ class ForegroundService : Service() {
     override fun onCreate() {
         super.onCreate()
         contextManager = ContextManager(this)
-
-        contextManager.permissions.forEach { permission ->
-            if (ContextCompat.checkSelfPermission(this, permission)
-                != PackageManager.PERMISSION_GRANTED) {
-                 //TODO
-            }
-        }
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        return null
+        return binder
     }
 
     override fun onDestroy() {
@@ -60,8 +61,8 @@ class ForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        this.createNotificationChannel()
-        this.createNotification()
+        createNotificationChannel()
+        createNotification()
 
         contextManager.startListening()
         return START_STICKY

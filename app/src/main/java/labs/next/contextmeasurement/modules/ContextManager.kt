@@ -23,12 +23,12 @@ class ContextManager {
     val permissions: Array<String>
         get() {
             var res: Array<String> = arrayOf()
-            /*res.plus(bluetooth.permissions)
-            res.plus(location.permissions)
-            res.plus(network.permissions)
-            res.plus(usageStats.permissions)
-            res.plus(userActivity.permissions)*/
-            res.plus(wifi.permissions)
+            /*res += bluetooth.permissions
+            res += location.permissions
+            res += network.permissions
+            res += usageStats.permissions
+            res += userActivity.permissions)*/
+            res += wifi.permissions
 
             return res
         }

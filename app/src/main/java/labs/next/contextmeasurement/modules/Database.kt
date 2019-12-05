@@ -3,7 +3,6 @@ package labs.next.contextmeasurement.modules
 import com.google.firebase.database.FirebaseDatabase
 
 enum class DatabaseSource { USER, SENSOR }
-
 enum class DatabaseSensor { BLUETOOTH, LOCATION, NETWORK, USAGE, ACTIVITY, WIFI }
 
 class Database (var user: String) {
