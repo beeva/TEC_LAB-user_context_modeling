@@ -1,4 +1,4 @@
-package labs.next.contextmeasurement.modules
+package labs.next.contextmeasurement.modules.libs
 
 import com.google.firebase.database.FirebaseDatabase
 
@@ -26,27 +26,39 @@ class Database (var user: String) {
     }
 
     fun saveBluetooth(metric: String, value: Any) {
-        saveMetric(DatabaseSource.SENSOR, DatabaseSensor.BLUETOOTH, metric, value)
+        saveMetric(
+            DatabaseSource.SENSOR,
+            DatabaseSensor.BLUETOOTH, metric, value)
     }
 
     fun saveLocation(metric: String, value: Any) {
-        saveMetric(DatabaseSource.SENSOR, DatabaseSensor.LOCATION, metric, value)
+        saveMetric(
+            DatabaseSource.SENSOR,
+            DatabaseSensor.LOCATION, metric, value)
     }
 
     fun saveNetwork(metric: String, value: Any) {
-        saveMetric(DatabaseSource.SENSOR, DatabaseSensor.NETWORK, metric, value)
+        saveMetric(
+            DatabaseSource.SENSOR,
+            DatabaseSensor.NETWORK, metric, value)
     }
 
     fun saveUsage(metric: String, value: Any) {
-        saveMetric(DatabaseSource.SENSOR, DatabaseSensor.USAGE, metric, value)
+        saveMetric(
+            DatabaseSource.SENSOR,
+            DatabaseSensor.USAGE, metric, value)
     }
 
     fun saveActivity(metric: String, value: Any) {
-        saveMetric(DatabaseSource.SENSOR, DatabaseSensor.ACTIVITY, metric, value)
+        saveMetric(
+            DatabaseSource.SENSOR,
+            DatabaseSensor.ACTIVITY, metric, value)
     }
 
     fun saveWifi(metric: String, value: Any) {
-        saveMetric(DatabaseSource.SENSOR, DatabaseSensor.WIFI, metric, value)
+        saveMetric(
+            DatabaseSource.SENSOR,
+            DatabaseSensor.WIFI, metric, value)
     }
 
     fun setValue(ref: String, value: Any) {

@@ -1,6 +1,5 @@
-package labs.next.contextmeasurement.modules
+package labs.next.contextmeasurement.modules.services
 
-import android.Manifest
 import android.app.*
 import android.content.Intent
 import android.content.Context
@@ -11,6 +10,7 @@ import androidx.core.app.NotificationCompat
 
 import labs.next.contextmeasurement.R
 import labs.next.contextmeasurement.MainActivity
+import labs.next.contextmeasurement.modules.libs.ContextManager
 
 class ForegroundService : Service() {
     private val CHANNEL_ID = "ForegroundService"
@@ -48,7 +48,8 @@ class ForegroundService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        contextManager = ContextManager(this)
+        contextManager =
+            ContextManager(this)
     }
 
     override fun onBind(intent: Intent): IBinder? {

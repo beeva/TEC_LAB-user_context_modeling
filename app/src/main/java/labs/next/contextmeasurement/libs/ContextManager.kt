@@ -1,4 +1,4 @@
-package labs.next.contextmeasurement.modules
+package labs.next.contextmeasurement.modules.libs
 
 import android.content.Context
 import android.os.Build
@@ -43,7 +43,8 @@ class ContextManager {
             }
 
             deviceId = id
-            database = Database(deviceId)
+            database =
+                Database(deviceId)
             database.setValue("device", Build.MODEL)
         }
 

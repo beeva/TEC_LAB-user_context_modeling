@@ -1,4 +1,4 @@
-package labs.next.contextmeasurement.modules
+package labs.next.contextmeasurement.modules.libs
 
 import android.content.Context
 import android.util.Log

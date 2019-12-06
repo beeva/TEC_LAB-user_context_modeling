@@ -9,7 +9,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import labs.next.contextmeasurement.modules.ForegroundService
+import labs.next.contextmeasurement.modules.services.ForegroundService
 
 import kotlinx.android.synthetic.main.activity_main.toggleService
 import kotlinx.android.synthetic.main.activity_main.serviceStatus
@@ -35,6 +35,12 @@ class MainActivity : AppCompatActivity() {
 
         checkService()
         addButtonListener()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        unbindService(serviceConnection)
     }
 
     private fun checkPermissions(permissions: Array<String>) {
