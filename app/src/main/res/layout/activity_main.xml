@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="@color/background"
     android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".MainActivity">
-    <TextView
-        android:id="@+id/serviceStatus"
+    tools:context=".activities.MainActivity">
+
+    <include
+        android:id="@+id/main_toolbar"
+        layout="@layout/toolbar"/>
+
+    <FrameLayout
+        android:id="@+id/incognito_placeholder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/service_stopped"
-        android:textAlignment="center"
-        android:textSize="18dp"/>
+        android:layout_height="wrap_content"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/toggleService"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/serviceStatus"
-        android:layout_marginTop="38dp"
-        app:srcCompat="@drawable/ic_power"/>
-
+    <FrameLayout
+        android:id="@+id/main_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

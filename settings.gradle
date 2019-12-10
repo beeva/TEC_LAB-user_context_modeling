@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='Context Measurement'
+rootProject.name='Argos App'

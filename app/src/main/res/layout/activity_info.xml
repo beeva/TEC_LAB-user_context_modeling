@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/background"
+    android:orientation="vertical"
+    tools:context=".activities.InfoActivity">
+
+    <include layout="@layout/secondary_toolbar"/>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:layout_marginTop="22dp"
+                android:src="@drawable/ic_argos_logo"
+                android:tint="@color/colorFlat"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/info_title1"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="20dp"
+                android:textFontWeight="600"
+                android:textAlignment="center"
+                android:textColor="@color/colorDark"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/info_paragraph1"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/info_paragraph2"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/info_paragraph3"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/info_paragraph4"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/info_title2"
+                android:layout_marginVertical="24dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="20dp"
+                android:textFontWeight="600"
+                android:textAlignment="center"
+                android:textColor="@color/colorDark"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/info_paragraph5"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/info_paragraph6"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="16dp"/>
+
+            <Button
+                android:id="@+id/contact"
+                android:layout_width="244dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="36dp"
+                android:layout_gravity="center"
+                android:text="@string/info_contact_button"
+                style="@style/AppTheme.LinkButton"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

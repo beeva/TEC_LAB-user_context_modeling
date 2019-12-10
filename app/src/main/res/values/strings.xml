@@ -1,6 +1,42 @@
 <resources>
-    <string name="app_name">Context Measurement</string>
-    <string name="notification_message"></string>
-    <string name="service_running">Background service running!</string>
-    <string name="service_stopped">Background service stopped!</string>
+    <!-- General -->
+    <string name="app_name">Argos</string>
+
+    <!-- Sticky Notification -->
+    <string name="notification_title">Participando en el experimiento</string>
+    <string name="notification_message">Estamos captando información de los sensores de tu móvil. Gracias por ayudarnos.</string>
+
+    <!-- Required permissions -->
+    <string name="required_permissions_title">Necesitamos tu permiso</string>
+    <string name="required_permissions_message">Necesitamos que nos dejes utilizar los sensores del dispositivo. Recuerda que, siempre que quieras, podrás activar el modo incógnito.</string>
+    <string name="required_permissions_recheck">Solicitar permisos</string>
+
+    <!-- Questions views -->
+    <string name="multi_questions_title">¿En qué andas?</string>
+    <string name="question_advertisement">Estamos captando información de los sensores de tu móvil para intentar interpretar en qué fase del día estás.</string>
+    <string name="success_answer_title">Gracias</string>
+    <string name="success_answer_message">Tus respuestas nos ayudan a interpretar mejor la fase en la que te encuentras.</string>
+    <string name="back_to_questions">Volver a contestar</string>
+
+    <!-- User journey states -->
+    <string name="status_work">Trabajando</string>
+    <string name="status_still">En un descanso</string>
+    <string name="status_transit">En trayecto</string>
+    <string name="status_personal">Vida privada</string>
+
+    <!-- Incognito mode -->
+    <string name="incognito_mode_banner_text">Activar el modo incógnito</string>
+    <string name="incognito_mode_title">Estaremos vegetando hasta las</string>
+    <string name="incognito_mode_advertisement">Durante el modo incógnito no captamos ningún tipo de información. Volverá a activarse en el plazo de 8h.</string>
+
+    <!-- Info -->
+    <string name="info_title1">¿Qué es Argos?</string>
+    <string name="info_paragraph1">Es la aplicación que desde el Lab de Innovación de BBVA Next hemos creado para <b>entender y explorar el modelado de contexto</b> en nuestra investigación sobre <b>sistemas omnicanales.</b></string>
+    <string name="info_paragraph2">Estamos leyendo y guardando datos que se captan a través de los sensores de tu móvil. </string>
+    <string name="info_paragraph3">Y <b>todo esto para intentar interpretar si estás en alguna de estas fases</b>: trabajando, en un descanso, en el trayecto al o desde el trabajo o en tu vida privada. </string>
+    <string name="info_paragraph4">Échale un ojo a nuestro repositorio en GitHub si te interesa saber más.</string>
+    <string name="info_title2">¿Cómo funciona el modo incógnito?</string>
+    <string name="info_paragraph5">Es una forma de <b>parar el experimento de forma temporal</b>. Durante el tiempo que esté activado, no tomaremos ningún tipo de de dato.</string>
+    <string name="info_paragraph6"><b>Si lo que quieres es dejar de participar</b> en el experimento <b>de forma permanente</b>, danos un toque para sacarte del experimento.</string>
+    <string name="info_contact_button">Contactar</string>
 </resources>

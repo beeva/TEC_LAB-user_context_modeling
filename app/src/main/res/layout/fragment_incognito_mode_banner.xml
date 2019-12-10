@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/banner"
+    android:layout_height="48dp"
+    android:layout_width="match_parent"
+    android:backgroundTint="@color/statusBar"
+    android:paddingHorizontal="16dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:background="@color/transparent"
+        android:layout_weight="1"
+        android:lineHeight="48dp"
+        android:text="@string/incognito_mode_banner_text"/>
+
+    <Switch
+        android:id="@+id/incognito_mode_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/AppTheme.SwitchButton"/>
+
+</LinearLayout>

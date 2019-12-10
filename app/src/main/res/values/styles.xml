@@ -1,8 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
@@ -10,8 +8,35 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <item name="colorControlActivated">@color/colorPrimary</item>
+
         <item name="android:statusBarColor">@color/statusBar</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:background">@color/background</item>
     </style>
+
+    <style name="AppTheme.RoundedButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/rounded_button_primary_background</item>
+        <item name="android:textColor">@color/colorLight</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <style name="AppTheme.RoundedSecondaryButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/rounded_button_secondary_background</item>
+        <item name="android:textColor">@drawable/rounded_button_secondary_color</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <style name="AppTheme.LinkButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:background">@drawable/link_button_background</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <style name="AppTheme.SwitchButton" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:thumbTint">@color/switch_button_tint</item>
+        <item name="android:trackTint">@color/switch_button_track</item>
+        <item name="android:colorControlActivated">@color/colorPrimary</item>
+    </style>
+
 </resources>
