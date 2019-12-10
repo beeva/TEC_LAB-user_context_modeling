@@ -2,6 +2,7 @@ package labs.next.argos.libs
 
 import android.util.Log
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 
 class Database (var user: String, var online: Boolean = true) {
     private var instance: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -17,6 +18,7 @@ class Database (var user: String, var online: Boolean = true) {
             val sensor = sensor?.name
             val metric = metric
             val value = value
+            val timestamp = ServerValue.TIMESTAMP
         }
 
         if (online) {
