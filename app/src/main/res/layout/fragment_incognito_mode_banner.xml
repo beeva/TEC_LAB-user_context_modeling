@@ -8,16 +8,16 @@
     android:orientation="horizontal">
 
     <TextView
+        android:id="@+id/incognito_mode_banner_text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:background="@color/transparent"
         android:layout_weight="1"
-        android:lineHeight="48dp"
-        android:text="@string/incognito_mode_banner_text"/>
+        android:lineHeight="48dp"/>
 
     <Switch
-        android:id="@+id/incognito_mode_switch"
+        android:id="@+id/incognito_mode_banner_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/AppTheme.SwitchButton"/>

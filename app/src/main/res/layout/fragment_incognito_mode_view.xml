@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="240dp"
-            android:src="@drawable/ic_incognito_mode"/>
+            android:src="@drawable/img_incognito_mode"/>
 
         <TextView
             android:id="@+id/incognito_mode_title"

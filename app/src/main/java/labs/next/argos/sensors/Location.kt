@@ -3,8 +3,10 @@ package labs.next.argos.sensors
 import android.util.Log
 import android.content.Context
 import android.location.LocationManager
-import com.google.android.gms.location.*
+
 import kotlinx.coroutines.*
+
+import com.google.android.gms.location.*
 
 class Location(
     override var context: Context,

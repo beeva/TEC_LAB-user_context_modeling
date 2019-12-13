@@ -1,7 +1,7 @@
 package labs.next.argos.libs
 
-import android.os.Build
 import android.content.Context
+import android.os.Build
 
 import labs.next.argos.sensors.*
 
@@ -24,26 +24,17 @@ class ContextManager {
         utils = Utils(context)
         database = Database(utils.deviceID, false)
 
-        wifi = Wifi(context, 10000)
-//        wifi = Wifi(context, minRefreshRate)
-        network = Network(context, minRefreshRate)
+        wifi = Wifi(context, 30000)
         bluetooth = Bluetooth(context, minRefreshRate)
         location = Location(context, minRefreshRate)
-        userActivity = UserActivity(context, minRefreshRate)
+        network = Network(context, minRefreshRate)
         usageStats = UsageStats(context, minRefreshRate)
+        userActivity = UserActivity(context, minRefreshRate)
+        wifi = Wifi(context, minRefreshRate)
     }
 
     fun startListening() {
         database.setValue("device", Build.MODEL)
-
-        wifi.start { networks ->
-            database.saveWifi("current_network", wifi.connectedNetwork)
-            database.saveWifi("available_networks", networks.toString())
-        }
-
-        network.start { connectionType ->
-            database.saveNetwork("connection_type", connectionType)
-        }
 
         bluetooth.start { devices ->
             database.saveBluetooth("near_devices", devices.toString())
@@ -52,29 +43,39 @@ class ContextManager {
         }
 
         location.start { lastLocation ->
-            val location = object {
-                val lat = lastLocation?.get("lat")
-                val long = lastLocation?.get("long")
-            }
+            val location = hashMapOf(
+                "lat" to lastLocation?.get("lat"),
+                "long" to lastLocation?.get("long")
+            )
 
             database.saveLocation("current_location", location)
+        }
+
+        network.start { connectionType ->
+            database.saveNetwork("connection_type", connectionType)
+        }
+
+        usageStats.start { stats ->
+            database.saveUsage("current_stats", stats.toString())
         }
 
         userActivity.start { activity ->
             database.saveActivity("current_activity", activity.toString())
         }
 
-        usageStats.start { stats ->
-            database.saveUsage("current_stats", stats.toString())
+        wifi.start { networks ->
+            database.saveWifi("current_network", wifi.connectedNetwork)
+            database.saveWifi("available_networks", networks)
         }
     }
 
     fun stopListening() {
-        wifi.stop()
-        network.stop()
         bluetooth.stop()
         location.stop()
-        userActivity.stop()
+        network.stop()
         usageStats.stop()
+        userActivity.stop()
+        wifi.stop()
     }
 }
+

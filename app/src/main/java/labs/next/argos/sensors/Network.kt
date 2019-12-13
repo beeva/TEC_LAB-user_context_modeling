@@ -1,11 +1,11 @@
 package labs.next.argos.sensors
 
 import android.util.Log
-import android.content.Context
 import android.net.Network
+import android.content.Context
 import android.net.ConnectivityManager
-import kotlinx.coroutines.*
 
+import kotlinx.coroutines.*
 
 class Network(
     override var context: Context,

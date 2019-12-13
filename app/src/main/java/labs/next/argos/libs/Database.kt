@@ -1,10 +1,14 @@
 package labs.next.argos.libs
 
 import android.util.Log
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
 
-class Database (var user: String, var online: Boolean = true) {
+import com.google.firebase.database.ServerValue
+import com.google.firebase.database.FirebaseDatabase
+
+class Database (
+    var user: String,
+    var online: Boolean = true
+) {
     private var instance: FirebaseDatabase = FirebaseDatabase.getInstance()
 
     private fun saveMetric(
@@ -13,13 +17,13 @@ class Database (var user: String, var online: Boolean = true) {
         metric: String,
         value: Any
     ) {
-        val model = object {
-            val source = source.name
-            val sensor = sensor?.name
-            val metric = metric
-            val value = value
-            val timestamp = ServerValue.TIMESTAMP
-        }
+        val model = hashMapOf(
+            "source" to source.name,
+            "sensor" to sensor?.name,
+            "metric" to metric,
+            "value" to value,
+            "timestamp" to ServerValue.TIMESTAMP
+        )
 
         if (online) {
             val entry = instance.getReference("$user/metrics").push()

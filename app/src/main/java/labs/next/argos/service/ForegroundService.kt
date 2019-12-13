@@ -1,11 +1,11 @@
 package labs.next.argos.service
 
 import android.app.*
-import android.os.Binder
+import android.util.Log
 import android.os.Build
+import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
-import android.util.Log
 import android.content.Intent
 import android.content.Context
 import android.content.ServiceConnection
@@ -15,7 +15,6 @@ import androidx.core.app.NotificationCompat
 import labs.next.argos.R
 import labs.next.argos.libs.ContextManager
 import labs.next.argos.activities.MainActivity
-
 
 class ForegroundService : Service() {
     var isListening : Boolean = false
@@ -102,7 +101,7 @@ class ForegroundService : Service() {
             .setContentTitle(getString(R.string.notification_title))
             .setStyle(NotificationCompat.BigTextStyle()
                 .bigText(getString(R.string.notification_message)))
-            .setSmallIcon(R.drawable.ic_stat_name)
+            .setSmallIcon(R.drawable.ic_app_logo)
             .setContentIntent(pendingIntent)
             .build()
 

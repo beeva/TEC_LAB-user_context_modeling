@@ -1,22 +1,20 @@
 package labs.next.argos.fragments
 
-import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.LayoutInflater
+import android.content.pm.PackageManager
 
 import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
 
 import kotlinx.android.synthetic.main.fragment_required_permissions.*
 
 import labs.next.argos.R
+import labs.next.argos.libs.PermissionChecker
 
 class RequiredPermissionsFragment(
-    var permissions: Array<String>,
+    var permissions: HashMap<String, Int>,
     var requestCode: Int = 14
 ) : Fragment() {
     private lateinit var toRequest: Array<String>
@@ -43,8 +41,9 @@ class RequiredPermissionsFragment(
 
         setCheckButtonListener()
 
-        val granted = check()
-        if (granted) callback.onPermissionsGranted()
+        val (allGranted, unauthorized) = PermissionChecker.check(this.context!!, permissions)
+        toRequest = unauthorized
+        if (allGranted) callback.onPermissionsGranted()
     }
 
     override fun onRequestPermissionsResult(code: Int, permissions: Array<out String>, results: IntArray) {
@@ -62,16 +61,11 @@ class RequiredPermissionsFragment(
         }
     }
 
-    private fun check() : Boolean {
-        toRequest = permissions.filter { permission ->
-            ContextCompat.checkSelfPermission(context as Context, permission) != PackageManager.PERMISSION_GRANTED
-        }.toTypedArray()
-
-        return toRequest.isEmpty()
-    }
-
     private fun request() {
-        if (!check()) requestPermissions(toRequest, requestCode)
+        val (allGranted, unauthorized) = PermissionChecker.check(this.context!!, permissions)
+        toRequest = unauthorized
+
+        if (!allGranted) requestPermissions(toRequest, requestCode)
         else callback.onPermissionsGranted()
     }
 }

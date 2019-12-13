@@ -1,6 +1,5 @@
 package labs.next.argos.sensors
 
-import android.Manifest
 import android.util.Log
 import android.content.Intent
 import android.content.Context
@@ -32,10 +31,15 @@ class Wifi (
         override fun onReceive(context: Context, intent: Intent) {
             val success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false)
             if (success) {
-                val results: ArrayList<String> = ArrayList()
+                var results: ArrayList<String> = ArrayList()
                 wifiManager.scanResults.forEach{ network ->
-                    if (network.SSID != null && network.SSID != "")
+                    if (
+                        network.SSID != null &&
+                        network.SSID != "" &&
+                        !results.contains(network.SSID)
+                    ) {
                         results.add(network.SSID)
+                    }
                 }
 
                 callback(results)
@@ -70,8 +74,10 @@ class Wifi (
     private suspend fun loop() {
         withContext(Dispatchers.IO) {
             while(run) {
-                val success = wifiManager.startScan()
-                if (!success) callback(ArrayList())
+                while (!wifiManager.startScan()) {
+                    Log.d("Wifi", "Retrying...")
+                    Thread.sleep(5000)
+                }
 
                 Thread.sleep(minRefreshRate)
             }

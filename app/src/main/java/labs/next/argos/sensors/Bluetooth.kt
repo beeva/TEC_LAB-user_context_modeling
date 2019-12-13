@@ -1,14 +1,15 @@
 package labs.next.argos.sensors
 
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothManager
-import android.bluetooth.BluetoothProfile
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.util.Log
+import android.content.Intent
+import android.content.Context
+import android.content.IntentFilter
+import android.content.BroadcastReceiver
+import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothProfile
+import android.bluetooth.BluetoothManager
+import android.bluetooth.BluetoothAdapter
+
 import kotlinx.coroutines.*
 
 class Bluetooth (

@@ -7,9 +7,9 @@
     <string name="notification_message">Estamos captando información de los sensores de tu móvil. Gracias por ayudarnos.</string>
 
     <!-- Required permissions -->
-    <string name="required_permissions_title">Necesitamos tu permiso</string>
-    <string name="required_permissions_message">Necesitamos que nos dejes utilizar los sensores del dispositivo. Recuerda que, siempre que quieras, podrás activar el modo incógnito.</string>
-    <string name="required_permissions_recheck">Solicitar permisos</string>
+    <string name="required_permissions_title">Para empezar</string>
+    <string name="required_permissions_message">Necesitamos que aceptes una serie de permisos para poder captar información de los sensores de tu móvil.</string>
+    <string name="required_permissions_recheck">Activar permisos</string>
 
     <!-- Questions views -->
     <string name="multi_questions_title">¿En qué andas?</string>
@@ -25,7 +25,8 @@
     <string name="status_personal">Vida privada</string>
 
     <!-- Incognito mode -->
-    <string name="incognito_mode_banner_text">Activar el modo incógnito</string>
+    <string name="incognito_mode_banner_text_enable">Modo incógnito activado</string>
+    <string name="incognito_mode_banner_text_disable">Activar el modo incógnito</string>
     <string name="incognito_mode_title">Estaremos vegetando hasta las</string>
     <string name="incognito_mode_advertisement">Durante el modo incógnito no captamos ningún tipo de información. Volverá a activarse en el plazo de 8h.</string>
 

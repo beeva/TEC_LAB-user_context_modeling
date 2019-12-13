@@ -12,7 +12,7 @@ import labs.next.argos.R
 
 class IncognitoModeBannerFragment(
     private var initialValue: Boolean,
-    private val enabled: Boolean
+    private val enabled: Boolean = true
 ) : Fragment() {
     private lateinit var callback: IncognitoModeListener
 
@@ -37,8 +37,9 @@ class IncognitoModeBannerFragment(
         super.onViewCreated(view, savedInstanceState)
 
         updateMode(initialValue)
-        incognito_mode_switch.isClickable = enabled
-        incognito_mode_switch.setOnCheckedChangeListener { _, enabled ->
+        syncTextToMode(initialValue)
+        incognito_mode_banner_switch.isClickable = enabled
+        incognito_mode_banner_switch.setOnCheckedChangeListener { _, enabled ->
             callback.onIncognitoModeChanged(enabled)
         }
 
@@ -47,6 +48,17 @@ class IncognitoModeBannerFragment(
 
     fun updateMode(enabled: Boolean) {
         this.initialValue = enabled
-        if (incognito_mode_switch != null) incognito_mode_switch.isChecked = enabled
+        if (incognito_mode_banner_switch != null) incognito_mode_banner_switch.isChecked = enabled
+        syncTextToMode(enabled)
+
+    }
+
+    private fun syncTextToMode(enabled: Boolean) {
+        if (incognito_mode_banner_text != null) {
+            incognito_mode_banner_text.text = getString(
+                if (enabled) R.string.incognito_mode_banner_text_enable
+                else R.string.incognito_mode_banner_text_disable
+            )
+        }
     }
 }

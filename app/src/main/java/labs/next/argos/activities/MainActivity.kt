@@ -1,9 +1,8 @@
 package labs.next.argos.activities
 
 import android.Manifest
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.content.Intent
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -15,6 +14,7 @@ import labs.next.argos.fragments.QuestionsFragment
 import labs.next.argos.fragments.IncognitoModeViewFragment
 import labs.next.argos.fragments.IncognitoModeBannerFragment
 import labs.next.argos.fragments.RequiredPermissionsFragment
+import labs.next.argos.libs.PermissionChecker
 
 class MainActivity :
     FragmentActivity(),
@@ -22,7 +22,7 @@ class MainActivity :
     IncognitoModeBannerFragment.IncognitoModeListener
 {
     private lateinit var serviceManager: ServiceManager
-    private lateinit var requiredPermissions: Array<String>
+    private lateinit var requiredPermissions: HashMap<String, Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,23 +35,22 @@ class MainActivity :
         }
 
         serviceManager = ServiceManager(this) {
-            injectOnServiceFragments()
+            injectUI()
         }
 
-        requiredPermissions = arrayOf(
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.BLUETOOTH_ADMIN,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-            Manifest.permission.ACTIVITY_RECOGNITION,
-            "com.google.android.gms.permission.ACTIVITY_RECOGNITION",
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.CHANGE_WIFI_STATE
+        requiredPermissions = hashMapOf(
+            Manifest.permission.BLUETOOTH to 1,
+            Manifest.permission.BLUETOOTH_ADMIN to 1,
+            Manifest.permission.ACCESS_FINE_LOCATION to 1,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION to 29,
+            Manifest.permission.ACTIVITY_RECOGNITION to 29,
+            "com.google.android.gms.permission.ACTIVITY_RECOGNITION" to 29,
+            Manifest.permission.ACCESS_NETWORK_STATE to 1,
+            Manifest.permission.ACCESS_WIFI_STATE to 1,
+            Manifest.permission.CHANGE_WIFI_STATE to 1
         )
 
-        injectInitialFragments()
+        initialChecks()
     }
 
     override fun onAttachFragment(fragment: Fragment) {
@@ -90,13 +89,15 @@ class MainActivity :
         serviceManager.close()
     }
 
-    private fun injectInitialFragments() {
-        injectIncognitoModeBanner(false)
-        injectRequiredPermissions()
+    private fun initialChecks() {
+        val (allGranted, _) = PermissionChecker.check(this, requiredPermissions)
+
+        if (!allGranted) injectRequiredPermissions()
+        else serviceManager.init()
     }
 
-    private fun injectOnServiceFragments() {
-        injectIncognitoModeBanner(true)
+    private fun injectUI() {
+        injectIncognitoModeBanner(serviceManager.incognito)
         if (serviceManager.incognito) injectIncognitoModeFragment()
         else injectQuestionsFragment()
     }

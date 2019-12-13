@@ -16,20 +16,20 @@
     </style>
 
     <style name="AppTheme.RoundedButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:background">@drawable/rounded_button_primary_background</item>
+        <item name="android:background">@drawable/bg_rounded_btn_primary</item>
         <item name="android:textColor">@color/colorLight</item>
         <item name="android:elevation">0dp</item>
     </style>
 
     <style name="AppTheme.RoundedSecondaryButton" parent="Widget.AppCompat.Button">
-        <item name="android:background">@drawable/rounded_button_secondary_background</item>
-        <item name="android:textColor">@drawable/rounded_button_secondary_color</item>
+        <item name="android:background">@drawable/bg_rounded_btn_secondary</item>
+        <item name="android:textColor">@drawable/c_rounded_btn_secondary</item>
         <item name="android:elevation">0dp</item>
     </style>
 
     <style name="AppTheme.LinkButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:background">@drawable/link_button_background</item>
+        <item name="android:background">@drawable/bg_link_button</item>
         <item name="android:elevation">0dp</item>
     </style>
 

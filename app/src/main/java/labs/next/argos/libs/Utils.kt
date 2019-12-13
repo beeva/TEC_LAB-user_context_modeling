@@ -1,11 +1,8 @@
 package labs.next.argos.libs
 
+import java.util.*
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import com.google.firebase.iid.FirebaseInstanceId
-import java.time.LocalTime
-import java.util.*
 
 class Utils(context: Context) {
     private var pref: SharedPreferences = context.getSharedPreferences("metada", Context.MODE_PRIVATE)
