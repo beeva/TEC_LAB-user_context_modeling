@@ -33,7 +33,8 @@
         <service
             android:name="labs.next.argos.service.ForegroundService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:stopWithTask="false"/>
 
         <activity android:name="labs.next.argos.activities.MainActivity"
             android:screenOrientation="portrait">

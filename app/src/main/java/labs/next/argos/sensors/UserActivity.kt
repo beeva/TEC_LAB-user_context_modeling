@@ -23,10 +23,11 @@ class UserActivity(
     private var current: String? = null
     private lateinit var callback: (String?) -> Unit
     private lateinit var intent: PendingIntent
-    private lateinit var recognitionClient: ActivityRecognitionClient
 
     private var recognitionHandler = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+            Log.d("UserActivity Service info", "Im a receiver")
+
             if (ActivityRecognitionResult.hasResult(intent)) {
                 val result = ActivityRecognitionResult.extractResult(intent)
 
@@ -50,36 +51,38 @@ class UserActivity(
 
         intent = createIntent()
         val request = createRequest()
-        recognitionClient = ActivityRecognition.getClient(context)
 
-        recognitionClient.requestActivityTransitionUpdates(request, intent)
-            .addOnSuccessListener {
-                run = true
-                Log.d("UserActivity Service info", "listening...")
-            }
-            .addOnFailureListener { e ->
-                run = false
-                Log.d("UserActivity Service error", e.toString())
-            }
+        ActivityRecognition.getClient(context)
+            .requestActivityTransitionUpdates(request, intent)
+                .addOnSuccessListener {
+                    run = true
+                    Log.d("UserActivity Service info", "listening...")
+                }
+                .addOnFailureListener { e ->
+                    run = false
+                    Log.d("UserActivity Service error", e.toString())
+                }
 
         scope.launch { loop() }
     }
 
     override fun stop() {
-        recognitionClient.removeActivityTransitionUpdates(intent)
-            .addOnSuccessListener {
-                run = false
-            }
-            .addOnFailureListener { e ->
-                Log.d("UserActivity Service error", e.toString())
-            }
+        ActivityRecognition.getClient(context)
+            .removeActivityTransitionUpdates(intent)
+                .addOnSuccessListener {
+                    run = false
+                }
+                .addOnFailureListener { e ->
+                    Log.d("UserActivity Service error", e.toString())
+                }
     }
 
     private fun createIntent() : PendingIntent {
         val intent = Intent(context, recognitionHandler::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
 
         context.registerReceiver(recognitionHandler, IntentFilter())
-        return PendingIntent.getBroadcast(context, 1, intent, 0)
+        return pendingIntent
     }
 
     private fun createRequest() : ActivityTransitionRequest {

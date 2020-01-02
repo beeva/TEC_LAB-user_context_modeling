@@ -2,6 +2,7 @@ package labs.next.argos.libs
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 
 import labs.next.argos.sensors.*
 
@@ -10,7 +11,6 @@ class ContextManager {
     private var utils: Utils
     private var database: Database
 
-
     private var bluetooth: Bluetooth
     private var location: Location
     private var network: Network
@@ -18,13 +18,13 @@ class ContextManager {
     private var userActivity: UserActivity
     private var wifi: Wifi
 
-    constructor(ctx: Context, minRefreshRate : Long = 60000) {
+    constructor(ctx: Context, minRefreshRate: Long = 60000) {
         context = ctx
 
         utils = Utils(context)
-        database = Database(utils.deviceID, false)
+        database = Database(utils.deviceID)
 
-        wifi = Wifi(context, 30000)
+        wifi = Wifi(context, minRefreshRate)
         bluetooth = Bluetooth(context, minRefreshRate)
         location = Location(context, minRefreshRate)
         network = Network(context, minRefreshRate)
@@ -48,7 +48,8 @@ class ContextManager {
                 "long" to lastLocation?.get("long")
             )
 
-            database.saveLocation("current_location", location)
+            if (lastLocation != null && lastLocation.isNotEmpty())
+                database.saveLocation("current_location", location)
         }
 
         network.start { connectionType ->
@@ -56,16 +57,21 @@ class ContextManager {
         }
 
         usageStats.start { stats ->
-            database.saveUsage("current_stats", stats.toString())
+            if (stats != null && stats.isNotEmpty())
+                database.saveUsage("current_stats", stats.toString())
         }
 
         userActivity.start { activity ->
-            database.saveActivity("current_activity", activity.toString())
+            if (activity != null && activity.isNotEmpty())
+                database.saveActivity("current_activity", activity.toString())
         }
 
         wifi.start { networks ->
-            database.saveWifi("current_network", wifi.connectedNetwork)
-            database.saveWifi("available_networks", networks)
+            if (wifi.connectedNetwork != null)
+                database.saveWifi("current_network", wifi.connectedNetwork)
+
+            if (networks != null && networks.isNotEmpty())
+                database.saveWifi("available_networks", networks)
         }
     }
 
