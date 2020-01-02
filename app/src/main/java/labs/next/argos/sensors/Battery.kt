@@ -11,16 +11,18 @@ import kotlinx.coroutines.*
 class Battery(
     override var context: Context,
     override var minRefreshRate: Long
-) : Sensor<Pair<Boolean, Int>> {
+) : Sensor<Pair<Boolean, Float>> {
     private var run: Boolean = false
     private var isCharging: Boolean = false
-    private var currentLevel: Int = 0
+    private var currentLevel: Float = 0F
     private var scope: CoroutineScope = MainScope()
-    private lateinit var callback: (Pair<Boolean, Int>) -> Unit
+    private lateinit var callback: (Pair<Boolean, Float>) -> Unit
 
     private var batteryReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+            val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1).toFloat()
+            val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1).toFloat()
+            currentLevel = level / scale * 100F
 
             val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
             isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING
@@ -29,7 +31,7 @@ class Battery(
 
     override fun isAvailable(): Boolean { return true }
 
-    override fun start(onResult: (res: Pair<Boolean, Int>) -> Unit) {
+    override fun start(onResult: (res: Pair<Boolean, Float>) -> Unit) {
         run = true
         callback = onResult
 

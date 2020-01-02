@@ -2,7 +2,6 @@ package labs.next.argos.libs
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 
 import labs.next.argos.sensors.*
 
