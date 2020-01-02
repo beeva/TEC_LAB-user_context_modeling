@@ -2,6 +2,7 @@ package labs.next.argos.libs
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 
 import labs.next.argos.sensors.*
 
@@ -10,6 +11,7 @@ class ContextManager {
     private var utils: Utils
     private var database: Database
 
+    private var battery: Battery
     private var bluetooth: Bluetooth
     private var location: Location
     private var network: Network
@@ -23,7 +25,7 @@ class ContextManager {
         utils = Utils(context)
         database = Database(utils.deviceID)
 
-        wifi = Wifi(context, minRefreshRate)
+        battery = Battery(context, minRefreshRate)
         bluetooth = Bluetooth(context, minRefreshRate)
         location = Location(context, minRefreshRate)
         network = Network(context, minRefreshRate)
@@ -34,6 +36,11 @@ class ContextManager {
 
     fun startListening() {
         database.setValue("device", Build.MODEL)
+
+        battery.start { (status, level) ->
+            database.saveBattery("current_level", level.toString())
+            database.saveBattery("is_charging", status.toString())
+        }
 
         bluetooth.start { devices ->
             database.saveBluetooth("near_devices", devices.toString())
@@ -75,6 +82,7 @@ class ContextManager {
     }
 
     fun stopListening() {
+        battery.stop()
         bluetooth.stop()
         location.stop()
         network.stop()

@@ -37,6 +37,12 @@ class Database (
             null, metric, value)
     }
 
+    fun saveBattery(metric: String, value: Any) {
+        saveMetric(
+            ContextSource.SENSOR,
+            ContextSensor.BATTERY, metric, value)
+    }
+
     fun saveBluetooth(metric: String, value: Any) {
         saveMetric(
             ContextSource.SENSOR,
