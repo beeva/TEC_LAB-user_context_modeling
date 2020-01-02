@@ -1,12 +1,14 @@
 package labs.next.argos.sensors
 
+import android.util.Log
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.util.Log
+
 import com.google.android.gms.location.*
+
 import kotlinx.coroutines.*
 
 class UserActivity(

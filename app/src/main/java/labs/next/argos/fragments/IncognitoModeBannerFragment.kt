@@ -38,7 +38,6 @@ class IncognitoModeBannerFragment(
 
         updateMode(initialValue)
         syncTextToMode(initialValue)
-        incognito_mode_banner_switch.isClickable = enabled
         incognito_mode_banner_switch.setOnCheckedChangeListener { _, enabled ->
             callback.onIncognitoModeChanged(enabled)
         }
