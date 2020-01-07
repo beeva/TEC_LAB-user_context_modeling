@@ -81,9 +81,9 @@ class UserActivity(
 
     private fun createIntent() : PendingIntent {
         val intent = Intent(context, recognitionHandler::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(context, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        context.registerReceiver(recognitionHandler, IntentFilter())
+        context.registerReceiver(recognitionHandler, IntentFilter("USER_ACTIVITY.BROADCAST"))
         return pendingIntent
     }
 

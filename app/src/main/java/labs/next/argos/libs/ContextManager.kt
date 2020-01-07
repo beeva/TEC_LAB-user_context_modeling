@@ -15,22 +15,24 @@ class ContextManager {
     private var location: Location
     private var network: Network
     private var usageStats: UsageStats
-    private var userActivity: UserActivity
+    //private var userActivity: UserActivity
     private var wifi: Wifi
+    private var movement: Movement
 
     constructor(ctx: Context, minRefreshRate: Long = 60000) {
         context = ctx
 
         utils = Utils(context)
-        database = Database(utils.deviceID)
+        database = Database(utils.deviceID, online = false)
 
         battery = Battery(context, minRefreshRate)
         bluetooth = Bluetooth(context, minRefreshRate)
         location = Location(context, minRefreshRate)
         network = Network(context, minRefreshRate)
         usageStats = UsageStats(context, minRefreshRate)
-        userActivity = UserActivity(context, minRefreshRate)
+        //userActivity = UserActivity(context, minRefreshRate)
         wifi = Wifi(context, minRefreshRate)
+        movement = Movement(context, minRefreshRate)
     }
 
     fun startListening() {
@@ -66,10 +68,10 @@ class ContextManager {
                 database.saveUsage("current_stats", stats.toString())
         }
 
-        userActivity.start { activity ->
+        /*userActivity.start { activity ->
             if (activity != null && activity.isNotEmpty())
                 database.saveActivity("current_activity", activity.toString())
-        }
+        }*/
 
         wifi.start { networks ->
             if (wifi.connectedNetwork != null)
@@ -77,6 +79,10 @@ class ContextManager {
 
             if (networks != null && networks.isNotEmpty())
                 database.saveWifi("available_networks", networks)
+        }
+
+        movement.start { state ->
+            database.saveMovement("current_state", state.toString())
         }
     }
 
@@ -86,8 +92,9 @@ class ContextManager {
         location.stop()
         network.stop()
         usageStats.stop()
-        userActivity.stop()
+        //userActivity.stop()
         wifi.stop()
+        movement.stop()
     }
 }
 

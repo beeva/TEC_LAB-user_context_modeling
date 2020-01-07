@@ -79,6 +79,12 @@ class Database (
             ContextSensor.WIFI, metric, value)
     }
 
+    fun saveMovement(metric: String, value: Any) {
+        saveMetric(
+            ContextSource.SENSOR,
+            ContextSensor.MOVEMENT, metric, value)
+    }
+
     fun setValue(ref: String, value: Any) {
         if (online) instance.getReference("$user/$ref").setValue(value)
     }
