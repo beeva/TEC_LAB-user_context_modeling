@@ -23,7 +23,7 @@ class ContextManager {
         context = ctx
 
         utils = Utils(context)
-        database = Database(utils.deviceID, online = false)
+        database = Database(utils.deviceID)
 
         battery = Battery(context, minRefreshRate)
         bluetooth = Bluetooth(context, minRefreshRate)
