@@ -1,5 +1,7 @@
 package labs.next.argos.service
 
+import java.util.concurrent.TimeUnit
+
 import android.os.IBinder
 import android.content.Context
 import android.content.ComponentName
@@ -12,6 +14,7 @@ class ServiceManager {
     private var utils: Utils
     private var context: Context
 
+    private var incognitoModeDelay = TimeUnit.HOURS.toMillis(8)
     private var initCallback: ((Boolean) -> Unit)? = null
     private var listenCallback : ((Boolean) -> Unit)? = null
     private lateinit var foregroundService: ForegroundService
@@ -58,7 +61,7 @@ class ServiceManager {
 
     fun incognitoMode(enabled: Boolean) : Long? {
         return if (enabled) {
-            utils.incognitoDelay = foregroundService.stopListening(120000)
+            utils.incognitoDelay = foregroundService.stopListening(incognitoModeDelay)
             utils.incognitoDelay
         } else {
             foregroundService.startListening()
