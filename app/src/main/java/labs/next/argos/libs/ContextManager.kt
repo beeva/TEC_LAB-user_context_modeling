@@ -82,7 +82,7 @@ class ContextManager {
         }
 
         movement.start { state ->
-            database.saveMovement("current_state", state.toString())
+            database.saveMovement("moving", state.toString())
         }
     }
 
