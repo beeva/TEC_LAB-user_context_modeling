@@ -45,8 +45,8 @@ class ContextManager {
 
         bluetooth.start { devices ->
             database.saveBluetooth("near_devices", devices.toString())
-            database.saveBluetooth("connected_device", bluetooth.isConnected.toString())
-            database.saveBluetooth("connected_device_type", bluetooth.connectionType.toString())
+            database.saveBluetooth("connected_device", bluetooth.getConnDevices())
+            //database.saveBluetooth("connected_device_type", bluetooth.connectionType.toString())
         }
 
         location.start { lastLocation ->
