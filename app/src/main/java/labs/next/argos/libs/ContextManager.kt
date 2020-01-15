@@ -11,7 +11,7 @@ class ContextManager {
     private var database: Database
 
     private var battery: Battery
-    //private var bluetooth: Bluetooth
+    private var bluetooth: Bluetooth
     private var location: Location
     private var network: Network
     private var usageStats: UsageStats
@@ -23,10 +23,10 @@ class ContextManager {
         context = ctx
 
         utils = Utils(context)
-        database = Database(utils.deviceID)
+        database = Database(utils.deviceID, false)
 
         battery = Battery(context, minRefreshRate)
-        //bluetooth = Bluetooth(context, minRefreshRate)
+        bluetooth = Bluetooth(context, minRefreshRate)
         location = Location(context, minRefreshRate)
         network = Network(context, minRefreshRate)
         usageStats = UsageStats(context, minRefreshRate)
@@ -43,11 +43,11 @@ class ContextManager {
             database.saveBattery("is_charging", status.toString())
         }
 
-        /*bluetooth.start { devices ->
+        bluetooth.start { devices ->
             database.saveBluetooth("near_devices", devices.toString())
             database.saveBluetooth("connected_device", bluetooth.getConnDevices())
             //database.saveBluetooth("connected_device_type", bluetooth.connectionType.toString())
-        }*/
+        }
 
         location.start { lastLocation ->
             val location = hashMapOf(
@@ -82,9 +82,13 @@ class ContextManager {
                 database.saveWifi("available_networks", networks)
         }
 
-        movement.start { state ->
-            database.saveMovement("moving", state.toString())
+        if (movement.exists){
+            movement.start { state ->
+                database.saveMovement("moving", state.toString())
+            }
         }
+
+
     }
 
     fun stopListening() {

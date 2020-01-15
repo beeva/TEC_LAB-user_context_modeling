@@ -15,6 +15,7 @@ class Movement (
     private var scope: CoroutineScope = MainScope()
     private var counter: Int = 0
     private var sensorManager: SensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    var exists: Boolean = existsSensor(sensorManager)
 
     private lateinit var sensor: android.hardware.Sensor
     private lateinit var callback: (Boolean) -> Unit
@@ -36,6 +37,7 @@ class Movement (
         run = true
         callback = onResult
 
+        //Log.d("-----", sensorManager.getSensorList(android.hardware.Sensor.TYPE_ALL).toString())
         sensor = sensorManager.getDefaultSensor(android.hardware.Sensor.TYPE_STEP_COUNTER)
         sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL)
 
@@ -61,5 +63,10 @@ class Movement (
                 Thread.sleep(minRefreshRate)
             }
         }
+    }
+
+    private fun existsSensor(sm: SensorManager): Boolean {
+        var list = sm.getSensorList(android.hardware.Sensor.TYPE_STEP_COUNTER)
+        return list.isNotEmpty()
     }
 }

@@ -48,10 +48,12 @@ class Location(
 
 
         fusedClient.lastLocation.addOnSuccessListener { location ->
-            results = hashMapOf(
-                "lat" to location.latitude,
-                "long" to location.longitude
-            )
+            if (location != null) {
+                results = hashMapOf(
+                    "lat" to location.latitude,
+                    "long" to location.longitude
+                )
+            }
         }
 
         val request = createRequest()

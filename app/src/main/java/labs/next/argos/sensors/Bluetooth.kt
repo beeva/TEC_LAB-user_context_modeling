@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.BroadcastReceiver
 import kotlinx.coroutines.*
+import labs.next.argos.libs.NotificationService
 
 class Bluetooth (
     override var context: Context,
@@ -119,7 +120,7 @@ class Bluetooth (
     }
 
     private var scanReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
+        override fun onReceive(context: Context, intent: Intent?) {
 
             when(intent?.action) {
                 BluetoothDevice.ACTION_FOUND -> {
@@ -127,7 +128,12 @@ class Bluetooth (
 
                     if (device.name != null && !results.contains(device.name))
                         results.add(device.name)
+
+                    var notificationService = NotificationService()
+                    notificationService.createNotification(context, "Daily activity", "PRueba", "Prueba")
+
                 }
+
             }
         }
     }
