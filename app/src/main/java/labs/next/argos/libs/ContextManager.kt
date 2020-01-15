@@ -11,7 +11,7 @@ class ContextManager {
     private var database: Database
 
     private var battery: Battery
-    private var bluetooth: Bluetooth
+    //private var bluetooth: Bluetooth
     private var location: Location
     private var network: Network
     private var usageStats: UsageStats
@@ -26,7 +26,7 @@ class ContextManager {
         database = Database(utils.deviceID)
 
         battery = Battery(context, minRefreshRate)
-        bluetooth = Bluetooth(context, minRefreshRate)
+        //bluetooth = Bluetooth(context, minRefreshRate)
         location = Location(context, minRefreshRate)
         network = Network(context, minRefreshRate)
         usageStats = UsageStats(context, minRefreshRate)
@@ -43,17 +43,18 @@ class ContextManager {
             database.saveBattery("is_charging", status.toString())
         }
 
-        bluetooth.start { devices ->
+        /*bluetooth.start { devices ->
             database.saveBluetooth("near_devices", devices.toString())
             database.saveBluetooth("connected_device", bluetooth.getConnDevices())
             //database.saveBluetooth("connected_device_type", bluetooth.connectionType.toString())
-        }
+        }*/
 
         location.start { lastLocation ->
             val location = hashMapOf(
                 "lat" to lastLocation?.get("lat"),
                 "long" to lastLocation?.get("long")
             )
+
 
             if (lastLocation != null && lastLocation.isNotEmpty())
                 database.saveLocation("current_location", location)
@@ -88,7 +89,7 @@ class ContextManager {
 
     fun stopListening() {
         battery.stop()
-        bluetooth.stop()
+        //bluetooth.stop()
         location.stop()
         network.stop()
         usageStats.stop()
