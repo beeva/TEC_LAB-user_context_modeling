@@ -15,7 +15,7 @@ class Movement (
     private var scope: CoroutineScope = MainScope()
     private var counter: Int = 0
     private var sensorManager: SensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    var exists: Boolean = existsSensor(sensorManager)
+    //var exists: Boolean = existsSensor(sensorManager)
 
     private lateinit var sensor: android.hardware.Sensor
     private lateinit var callback: (Boolean) -> Unit
@@ -65,8 +65,9 @@ class Movement (
         }
     }
 
+    /*
     private fun existsSensor(sm: SensorManager): Boolean {
         var list = sm.getSensorList(android.hardware.Sensor.TYPE_STEP_COUNTER)
         return list.isNotEmpty()
-    }
+    }*/
 }

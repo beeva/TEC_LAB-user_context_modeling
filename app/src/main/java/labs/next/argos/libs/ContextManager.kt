@@ -2,7 +2,7 @@ package labs.next.argos.libs
 
 import android.content.Context
 import android.os.Build
-
+import android.util.Log
 import labs.next.argos.sensors.*
 
 class ContextManager {
@@ -43,10 +43,13 @@ class ContextManager {
             database.saveBattery("is_charging", status.toString())
         }
 
-        bluetooth.start { devices ->
-            database.saveBluetooth("near_devices", devices.toString())
-            database.saveBluetooth("connected_device", bluetooth.getConnDevices())
-            //database.saveBluetooth("connected_device_type", bluetooth.connectionType.toString())
+        Log.d("----", bluetooth.isAvailable().toString())
+        if (bluetooth.isAvailable()){
+            bluetooth.start { (nearDevices, connectedDevices) ->
+                database.saveBluetooth("near_devices", nearDevices.toString())
+                database.saveBluetooth("connected_device", connectedDevices.toString())
+                //database.saveBluetooth("connected_device_type", bluetooth.connectionType.toString())
+            }
         }
 
         location.start { lastLocation ->
@@ -74,15 +77,15 @@ class ContextManager {
                 database.saveActivity("current_activity", activity.toString())
         }*/
 
-        wifi.start { networks ->
-            if (wifi.connectedNetwork != null)
-                database.saveWifi("current_network", wifi.connectedNetwork)
+        wifi.start { (nearNetworks, connectedNetwork) ->
+            if (connectedNetwork != null)
+                database.saveWifi("current_network", connectedNetwork)
 
-            if (networks != null && networks.isNotEmpty())
-                database.saveWifi("available_networks", networks)
+            if (nearNetworks != null && nearNetworks.isNotEmpty())
+                database.saveWifi("available_networks", nearNetworks)
         }
-
-        if (movement.exists){
+        Log.d("----", movement.isAvailable().toString())
+        if (movement.isAvailable()){
             movement.start { state ->
                 database.saveMovement("moving", state.toString())
             }
@@ -93,7 +96,7 @@ class ContextManager {
 
     fun stopListening() {
         battery.stop()
-        //bluetooth.stop()
+        bluetooth.stop()
         location.stop()
         network.stop()
         usageStats.stop()

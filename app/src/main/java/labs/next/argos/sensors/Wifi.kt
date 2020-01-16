@@ -13,18 +13,18 @@ import kotlinx.coroutines.*
 class Wifi (
     override var context: Context,
     override var minRefreshRate: Long = 5000
-) : Sensor<ArrayList<String>> {
-    val connectedNetwork: String
-        get() {
+) : Sensor<Pair<ArrayList<String>, String>> {
+    private val connectedNetwork: String
+        get (){
             val wifiInfo = wifiManager.connectionInfo;
-            if (wifiInfo.supplicantState == SupplicantState.COMPLETED) return wifiInfo.ssid
-
+            if (wifiInfo.supplicantState == SupplicantState.COMPLETED)
+                return wifiInfo.ssid
             return ""
         }
 
     private var run: Boolean = false
     private var scope: CoroutineScope = MainScope()
-    private lateinit var callback: (ArrayList<String>) -> Unit
+    private lateinit var callback: (Pair<ArrayList<String>, String>) -> Unit
 
     private var wifiManager: WifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
     private var wifiScanReceiver = object : BroadcastReceiver() {
@@ -42,7 +42,7 @@ class Wifi (
                     }
                 }
 
-                callback(results)
+                callback(Pair(results, connectedNetwork))
             }
         }
     }
@@ -51,7 +51,7 @@ class Wifi (
         return wifiManager.isWifiEnabled
     }
 
-    override fun start(onResult: (ArrayList<String>) -> Unit) {
+    override fun start(onResult: (res: Pair<ArrayList<String>, String>) -> Unit) {
         callback = onResult
         run = true
 

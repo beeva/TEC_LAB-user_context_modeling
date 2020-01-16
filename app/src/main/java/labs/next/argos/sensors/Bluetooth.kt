@@ -15,10 +15,6 @@ class Bluetooth (
 ) : Sensor<ArrayList<String?>> {
 
     private var TAG: String = "-------------------------------"
-    var MEDIA: String = "media"
-    var OTHER: String = "other"
-    var connectionType: String? = null
-    var isConnected: Boolean = false
     var connectedDevices =  arrayListOf<BDevice>()
 
     private var run: Boolean = false
@@ -27,7 +23,8 @@ class Bluetooth (
     private lateinit var onResult: (ArrayList<String?>) -> Unit
 
     private var manager: BluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-    private var adapter: BluetoothAdapter = manager.adapter
+    private var adapter: BluetoothAdapter? = manager.adapter
+
 
     // listen to connections and disconnections from bluetooth service
     private val profileListener = object : BluetoothProfile.ServiceListener {
@@ -35,50 +32,50 @@ class Bluetooth (
             //connectionType = null
             //isConnected = false
             //connectedDevices.add()
-            Log.d(TAG, "onServiceDisconnected")
+            //Log.d(TAG, "onServiceDisconnected")
             // removes all elements
             connectedDevices.clear()
         }
 
         override fun onServiceConnected(profile: Int, proxy: BluetoothProfile?) {
-            Log.d(TAG, "onServiceConnected")
+            //Log.d(TAG, "onServiceConnected")
             if (profile == BluetoothProfile.A2DP){
-                Log.d(TAG, "A2DP")
+                //Log.d(TAG, "A2DP")
                 var device: BluetoothA2dp = proxy as BluetoothA2dp
                 val devices_list: MutableList<BluetoothDevice> = device.connectedDevices
                 checkDevices(devices_list, "A2DP")
-                devices_list.forEach { Log.d(TAG, "found: " + it.name) }
+                //devices_list.forEach { Log.d(TAG, "found: " + it.name) }
 
                 //close proxy
                 //adapter.closeProfileProxy(BluetoothProfile.A2DP, device)
             }
             if (profile == BluetoothProfile.HEADSET){
-                Log.d(TAG, "HEADSET")
+                //Log.d(TAG, "HEADSET")
                 var device: BluetoothHeadset = proxy as BluetoothHeadset
                 val devices_list: MutableList<BluetoothDevice> = device.connectedDevices
                 checkDevices(devices_list, "HEADSET")
-                devices_list.forEach { Log.d(TAG, "found: " + it.name) }
+                //devices_list.forEach { Log.d(TAG, "found: " + it.name) }
 
                 //close proxy
                 //adapter.closeProfileProxy(BluetoothProfile.HEADSET, device)
 
             }
             if (profile == BluetoothProfile.HID_DEVICE){
-                Log.d(TAG, "HID_DEVICE")
+                //Log.d(TAG, "HID_DEVICE")
                 var device: BluetoothHidDevice = proxy as BluetoothHidDevice
                 val devices_list: MutableList<BluetoothDevice> = device.connectedDevices
                 checkDevices(devices_list, "HID_DEVICE")
-                devices_list.forEach { Log.d(TAG, "found: " + it.name) }
+                //devices_list.forEach { Log.d(TAG, "found: " + it.name) }
                 //close proxy
                 //adapter.closeProfileProxy(BluetoothProfile.HID_DEVICE, device)
 
             }
             if (profile == BluetoothProfile.HEARING_AID){
-                Log.d(TAG, "HEARING_AID")
+                //Log.d(TAG, "HEARING_AID")
                 var device: BluetoothHearingAid = proxy as BluetoothHearingAid
                 val devices_list: MutableList<BluetoothDevice> = device.connectedDevices
                 checkDevices(devices_list, "HEARING_AID")
-                devices_list.forEach { Log.d(TAG, "found: " + it.name) }
+                //devices_list.forEach { Log.d(TAG, "found: " + it.name) }
                 //close proxy
                 //adapter.closeProfileProxy(BluetoothProfile.HEARING_AID, device)
             }
@@ -91,20 +88,20 @@ class Bluetooth (
             when(intent?.action) {
                 BluetoothDevice.ACTION_ACL_CONNECTED -> {
                     val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as BluetoothDevice
-                    Log.d(TAG, "ONCONNECTED")
-                    Log.d(TAG, "found: " + device.name)
+                    //Log.d(TAG, "ONCONNECTED")
+                    //Log.d(TAG, "found: " + device.name)
                     // add device
                     checkDevice(device, "NONE")
-                    connectedDevices?.forEach{Log.d(TAG, "found: " + it.name)}
-                }/*
+                    //connectedDevices?.forEach{Log.d(TAG, "found: " + it.name)}
+                }
                 BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
                     val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as BluetoothDevice
-                    Log.d(TAG, "ONDISCONNECTED")
-                    Log.d(TAG, "found: " + device.name)
+                    //Log.d(TAG, "ONDISCONNECTED")
+                    //Log.d(TAG, "found: " + device.name)
                     // remove device
                     removeDevice(device)
-                    connectedDevices?.forEach{Log.d(TAG, "found: " + it.name)}
-                }*/
+                    //connectedDevices?.forEach{Log.d(TAG, "found: " + it.name)}
+                }
 
             }
         }
@@ -128,10 +125,6 @@ class Bluetooth (
 
                     if (device.name != null && !results.contains(device.name))
                         results.add(device.name)
-
-                    var notificationService = NotificationService()
-                    notificationService.createNotification(context, "Daily activity", "PRueba", "Prueba")
-
                 }
 
             }
@@ -139,7 +132,7 @@ class Bluetooth (
     }
 
     override fun isAvailable(): Boolean {
-        return adapter.isEnabled
+        return adapter?.isEnabled != null
     }
 
     override fun start(onResult: (res: ArrayList<String?>) -> Unit) {
@@ -153,10 +146,10 @@ class Bluetooth (
         ifBtDeviceReceiver.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
         context.registerReceiver(btDeviceReceiver, ifBtDeviceReceiver)
 
-        adapter.getProfileProxy(context, profileListener, BluetoothProfile.HEADSET)
-        adapter.getProfileProxy(context, profileListener, BluetoothProfile.HID_DEVICE)
-        adapter.getProfileProxy(context, profileListener, BluetoothProfile.HEARING_AID)
-        adapter.getProfileProxy(context, profileListener, BluetoothProfile.A2DP)
+        adapter?.getProfileProxy(context, profileListener, BluetoothProfile.HEADSET)
+        adapter?.getProfileProxy(context, profileListener, BluetoothProfile.HID_DEVICE)
+        adapter?.getProfileProxy(context, profileListener, BluetoothProfile.HEARING_AID)
+        adapter?.getProfileProxy(context, profileListener, BluetoothProfile.A2DP)
 
         scope.launch { loop() }
     }
@@ -165,7 +158,7 @@ class Bluetooth (
         run = false
 
         try {
-            adapter.cancelDiscovery()
+            adapter?.cancelDiscovery()
             // unregister receivers
             context.unregisterReceiver(btDeviceReceiver)
             context.unregisterReceiver(scanReceiver)
@@ -177,7 +170,7 @@ class Bluetooth (
     private suspend fun loop() {
         withContext(Dispatchers.IO) {
             while(run) {
-                adapter.startDiscovery()
+                adapter?.startDiscovery()
 
                 // get gatt_server devices
                 var gattServer_list = manager.getConnectedDevices(BluetoothProfile.GATT_SERVER)
