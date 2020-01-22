@@ -75,6 +75,12 @@ class Location(
     private suspend fun loop() {
         withContext(Dispatchers.IO) {
             while (run) {
+                if (!isAvailable()){
+                    results = hashMapOf(
+                        "lat" to 0.0,
+                        "long" to 0.0
+                    )
+                }
                 callback(results)
                 Thread.sleep(minRefreshRate)
             }

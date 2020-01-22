@@ -12,6 +12,7 @@ import kotlinx.coroutines.*
 
 class Wifi (
     override var context: Context,
+    var location: Location,
     override var minRefreshRate: Long = 5000
 ) : Sensor<Pair<ArrayList<String>, String>> {
     private val connectedNetwork: String
@@ -19,7 +20,7 @@ class Wifi (
             val wifiInfo = wifiManager.connectionInfo;
             if (wifiInfo.supplicantState == SupplicantState.COMPLETED)
                 return wifiInfo.ssid
-            return ""
+            return "null"
         }
 
     private var run: Boolean = false
@@ -74,7 +75,7 @@ class Wifi (
     private suspend fun loop() {
         withContext(Dispatchers.IO) {
             while(run) {
-                while (!wifiManager.startScan()) {
+                while (isAvailable() && location.isAvailable() && !wifiManager.startScan()) {
                     Log.d("Wifi", "Retrying...")
                     Thread.sleep(5000)
                 }

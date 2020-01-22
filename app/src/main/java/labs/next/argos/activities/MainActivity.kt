@@ -1,8 +1,11 @@
 package labs.next.argos.activities
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.os.Bundle
 import android.content.Intent
+import android.os.Build
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -36,6 +39,17 @@ class MainActivity :
 
         serviceManager = ServiceManager(this) {
             injectUI()
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            val channelId = "canal de prueba"
+            val channelName = "canal de prueba"
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager?.createNotificationChannel(
+                NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW)
+            )
         }
 
         requiredPermissions = hashMapOf(

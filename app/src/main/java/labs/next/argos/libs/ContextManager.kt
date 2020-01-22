@@ -23,7 +23,7 @@ class ContextManager {
         context = ctx
 
         utils = Utils(context)
-        database = Database(utils.deviceID, false)
+        database = Database(utils.deviceID)
 
         battery = Battery(context, minRefreshRate)
         bluetooth = Bluetooth(context, minRefreshRate)
@@ -31,7 +31,7 @@ class ContextManager {
         network = Network(context, minRefreshRate)
         usageStats = UsageStats(context, minRefreshRate)
         //userActivity = UserActivity(context, minRefreshRate)
-        wifi = Wifi(context, minRefreshRate)
+        wifi = Wifi(context, location, minRefreshRate)
         movement = Movement(context, minRefreshRate)
     }
 
@@ -43,7 +43,6 @@ class ContextManager {
             database.saveBattery("is_charging", status.toString())
         }
 
-        Log.d("----", bluetooth.isAvailable().toString())
         if (bluetooth.isAvailable()){
             bluetooth.start { (nearDevices, connectedDevices) ->
                 database.saveBluetooth("near_devices", nearDevices.toString())
@@ -51,6 +50,7 @@ class ContextManager {
                 //database.saveBluetooth("connected_device_type", bluetooth.connectionType.toString())
             }
         }
+
 
         location.start { lastLocation ->
             val location = hashMapOf(
@@ -62,6 +62,7 @@ class ContextManager {
             if (lastLocation != null && lastLocation.isNotEmpty())
                 database.saveLocation("current_location", location)
         }
+
 
         network.start { connectionType ->
             database.saveNetwork("connection_type", connectionType)
@@ -84,7 +85,7 @@ class ContextManager {
             if (nearNetworks != null && nearNetworks.isNotEmpty())
                 database.saveWifi("available_networks", nearNetworks)
         }
-        Log.d("----", movement.isAvailable().toString())
+
         if (movement.isAvailable()){
             movement.start { state ->
                 database.saveMovement("moving", state.toString())
