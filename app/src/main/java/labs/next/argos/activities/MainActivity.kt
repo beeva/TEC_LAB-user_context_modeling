@@ -41,16 +41,7 @@ class MainActivity :
             injectUI()
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create channel to show notifications.
-            val channelId = "canal de prueba"
-            val channelName = "canal de prueba"
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager?.createNotificationChannel(
-                NotificationChannel(channelId,
-                    channelName, NotificationManager.IMPORTANCE_LOW)
-            )
-        }
+        createNotificationsChannels()
 
         requiredPermissions = hashMapOf(
             Manifest.permission.BLUETOOTH to 1,
@@ -153,6 +144,19 @@ class MainActivity :
                 QuestionsFragment()
             )
             commit()
+        }
+    }
+
+    private fun createNotificationsChannels(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            val channelId = "canal de prueba"
+            val channelName = "canal de prueba"
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager?.createNotificationChannel(
+                NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW)
+            )
         }
     }
 }

@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.BroadcastReceiver
 import kotlinx.coroutines.*
-import labs.next.argos.libs.NotificationService
 
 class Bluetooth (
     override var context: Context,

@@ -11,9 +11,10 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import labs.next.argos.R
 import labs.next.argos.activities.MainActivity
 
-class MyFirebaseMessagingService : FirebaseMessagingService() {
+class FirebaseNotificationService : FirebaseMessagingService() {
 
     /**
      * Called when message is received.
@@ -36,19 +37,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
 
-        // TODO(developer): Handle FCM messages here.
-        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: ${remoteMessage.from}")
+        //Log.d(TAG, "From: ${remoteMessage.from}")
 
         // Check if message contains a data payload.
-        remoteMessage.data.isNotEmpty().let {
+        /*remoteMessage.data.isNotEmpty().let {
             Log.d(TAG, "Message data payload: " + remoteMessage.data)
 
-        }
+        }*/
 
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
             Log.d(TAG, "Message Notification Body: ${it.body}")
+            sendNotification(it.title, it.body)
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
@@ -83,6 +83,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun sendRegistrationToServer(token: String?) {
         // TODO: Implement this method to send token to your app server.
         Log.d(TAG, "sendRegistrationTokenToServer($token)")
+
     }
 
     /**
@@ -90,7 +91,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      *
      * @param messageBody FCM message body received.
      */
-    private fun sendNotification(messageBody: String) {
+    private fun sendNotification(title: String?, messageBody: String?) {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -99,8 +100,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            //.setSmallIcon(R.drawable.ic_stat_ic_notification)
-            .setContentTitle("Firebase dice:")
+            .setSmallIcon(R.drawable.ic_app_logo)
+            .setContentTitle(title)
             .setContentText(messageBody)
             .setAutoCancel(true)
             .setSound(defaultSoundUri)

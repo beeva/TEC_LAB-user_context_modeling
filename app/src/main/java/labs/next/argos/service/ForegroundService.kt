@@ -8,7 +8,6 @@ import android.os.Handler
 import android.os.IBinder
 import android.content.Intent
 import android.content.Context
-import android.content.IntentFilter
 import android.content.ServiceConnection
 
 import androidx.core.app.NotificationCompat
@@ -16,8 +15,6 @@ import androidx.core.app.NotificationCompat
 import labs.next.argos.R
 import labs.next.argos.libs.ContextManager
 import labs.next.argos.activities.MainActivity
-import labs.next.argos.libs.NotificationBroadcast
-import labs.next.argos.libs.NotificationService
 
 // accion para lanzar notificaciones
 const val ACTION_SETNOTIFICATION = "labs.next.argos.SETNOTIFICATION"
@@ -83,17 +80,8 @@ class ForegroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         registersAllNotificationChannels()
-        //val notificationService = NotificationService()
-        //notificationService.createNotification(this, channelsID.get(0), getString(R.string.notification_title), getString(R.string.notification_message))
         createNotification(1)
-        //var notificationService = NotificationService()
-        //notificationService.createNotification(this, channelsID.get(1), "PRueba", "Prueba")
-        // registrar broadcast para notificaciones tipo 2
-        //val notifiBroadcast = NotificationBroadcast()
-        //val intentFilter = IntentFilter(ACTION_SETNOTIFICATION)
-        //this.registerReceiver(notifiBroadcast, intentFilter)
-        //val intent = Intent(this, ACTION_SETNOTIFICATION)
-        //sendBroadcast(intent)
+
 
         val listenOnBoot = intent?.getBooleanExtra("listenOnBoot", true)
         if (listenOnBoot == null || listenOnBoot) startListening()

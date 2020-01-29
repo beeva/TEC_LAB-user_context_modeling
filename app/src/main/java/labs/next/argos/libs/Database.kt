@@ -28,6 +28,7 @@ class Database (
         if (online) {
             val entry = instance.getReference("$user/metrics").push()
             entry.setValue(model)
+            Log.d("user---", entry.toString())
         } else Log.d("Database offline insert", "$sensor ($source) -> $metric: $value")
     }
 
