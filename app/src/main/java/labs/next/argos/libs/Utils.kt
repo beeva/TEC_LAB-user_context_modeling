@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.util.Log
 
 class Utils(context: Context) {
+
     private var pref: SharedPreferences = context.getSharedPreferences("metada", Context.MODE_PRIVATE)
 
     val deviceID: String

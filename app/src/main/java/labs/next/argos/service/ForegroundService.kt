@@ -22,8 +22,6 @@ const val ACTION_SETNOTIFICATION = "labs.next.argos.SETNOTIFICATION"
 class ForegroundService : Service() {
     var isListening : Boolean = false
 
-    private val channelsID = arrayOf("ForegroundService", "Daily activity")
-    private val tags = arrayOf("Context Measure Service", "Daily activity")
     private lateinit var contextManager: ContextManager
     private lateinit var listenCallback : (Boolean) -> Unit
 
@@ -33,6 +31,9 @@ class ForegroundService : Service() {
             return this@ForegroundService
         }
     }
+
+    private var channelName = "Context Measure Service"
+    private var channelID = "ForegroundService"
 
     companion object {
         var isAlive: Boolean = false
@@ -79,8 +80,7 @@ class ForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        registersAllNotificationChannels()
-        createNotification(1)
+        createNotification()
 
 
         val listenOnBoot = intent?.getBooleanExtra("listenOnBoot", true)
@@ -89,7 +89,7 @@ class ForegroundService : Service() {
         return START_STICKY
     }
 
-    private fun registersAllNotificationChannels(){
+    /*private fun registersAllNotificationChannels(){
         // registrar todos los canales de notificaciones
         for (i in 0..channelsID.size-1){
             createNotificationChannel(channelsID.get(i), tags.get(i))
@@ -105,14 +105,14 @@ class ForegroundService : Service() {
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(serviceChannel)
         }
-    }
+    }*/
 
     // crear y lanzar notificacion
-    private fun createNotification(index: Int) {
+    private fun createNotification() {
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
 
-        val notification = NotificationCompat.Builder(this, channelsID.get(index))
+        val notification = NotificationCompat.Builder(this, channelID)
             .setContentTitle(getString(R.string.notification_title))
             .setStyle(NotificationCompat.BigTextStyle()
                 .bigText(getString(R.string.notification_message)))

@@ -27,6 +27,9 @@ class MainActivity :
     private lateinit var serviceManager: ServiceManager
     private lateinit var requiredPermissions: HashMap<String, Int>
 
+    private val channelID = arrayOf("ForegroundService", "Daily activity")
+    private val channelName = arrayOf("Context Measure Service", "Daily activity")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -140,7 +143,8 @@ class MainActivity :
     private fun injectQuestionsFragment() {
         with(supportFragmentManager.beginTransaction()) {
             setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            replace(R.id.main_placeholder,
+            replace(
+                R.id.main_placeholder,
                 QuestionsFragment()
             )
             commit()
@@ -150,13 +154,15 @@ class MainActivity :
     private fun createNotificationsChannels(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create channel to show notifications.
-            val channelId = "canal de prueba"
-            val channelName = "canal de prueba"
-            val notificationManager = getSystemService(NotificationManager::class.java)
-            notificationManager?.createNotificationChannel(
-                NotificationChannel(channelId,
-                    channelName, NotificationManager.IMPORTANCE_LOW)
-            )
+            for (i in 0..channelID.size-1) {
+                val notificationManager = getSystemService(NotificationManager::class.java)
+                notificationManager?.createNotificationChannel(
+                    NotificationChannel(
+                        channelID.get(i),
+                        channelName.get(i), NotificationManager.IMPORTANCE_DEFAULT
+                    )
+                )
+            }
         }
     }
 }
