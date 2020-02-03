@@ -154,12 +154,12 @@ class MainActivity :
     private fun createNotificationsChannels(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create channel to show notifications.
-            for (i in 0..channelID.size-1) {
+            for (i in channelID.indices) {
                 val notificationManager = getSystemService(NotificationManager::class.java)
-                notificationManager?.createNotificationChannel(
+                val createNotificationChannel = notificationManager?.createNotificationChannel(
                     NotificationChannel(
-                        channelID.get(i),
-                        channelName.get(i), NotificationManager.IMPORTANCE_DEFAULT
+                        channelID[i],
+                        channelName[i], NotificationManager.IMPORTANCE_DEFAULT
                     )
                 )
             }

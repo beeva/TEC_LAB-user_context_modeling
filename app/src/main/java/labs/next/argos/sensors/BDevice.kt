@@ -14,6 +14,4 @@ class BDevice (
             profile.add(pfl)
         }
     }
-
-
 }
