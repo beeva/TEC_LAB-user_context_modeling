@@ -19,7 +19,7 @@ class Database (
     ) {
         val model = hashMapOf(
             "source" to source.name,
-            "sensor" to if (sensor == null) "null" else sensor?.name,
+            "sensor" to sensor?.name,
             "metric" to metric,
             "value" to value,
             "timestamp" to ServerValue.TIMESTAMP
