@@ -7,8 +7,9 @@
     <color name="colorDark">#212121</color>
     <color name="colorLight">#FAFAFA</color>
     <color name="colorDarkLight">#dde3e9</color>
-    <color name="colorGrey">#B4B4B4</color>
-    <color name="colorDarkGrey">#A3A3A3</color>
+    <color name="colorLightGrey">#B4B4B4</color>
+    <color name="colorGrey">#A3A3A3</color>
+    <color name="colorDarkGrey">#e9e6e6</color>
     <color name="colorFlat">#c1dee2</color>
 
     <color name="background">@color/colorLight</color>

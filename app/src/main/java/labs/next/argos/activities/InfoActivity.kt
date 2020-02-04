@@ -10,6 +10,7 @@ import labs.next.argos.R
 import labs.next.argos.libs.Utils
 
 class InfoActivity : AppCompatActivity() {
+    private lateinit var utils: Utils
     private val prefix: String = "mailto:"
     private val email: String = "labs.next@bbva.com"
 
@@ -19,7 +20,22 @@ class InfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_info)
         setActionBar(secondary_toolbar)
 
+        utils = Utils(this)
+        inflateDataList()
+        inflateDeviceID()
         setListeners()
+    }
+
+    private fun inflateDataList() {
+        val entities = resources.getStringArray(R.array.info_data_entities)
+
+        var listText = ""
+        entities.forEach { listText += " - $it\n" }
+        data_list_container.text = listText
+    }
+
+    private fun inflateDeviceID() {
+        device_id_container.text = utils.deviceID
     }
 
     private fun setListeners() {
@@ -38,9 +54,7 @@ class InfoActivity : AppCompatActivity() {
         intent.type = "text/plain"
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
 
-
-        val deviceID = Utils(this).deviceID
-        val subject = "ArgosApp - User question (ID: $deviceID)"
+        val subject = "ArgosApp - User question (ID: $utils.deviceID)"
         intent.putExtra(Intent.EXTRA_SUBJECT, subject)
 
         val title = resources.getString(R.string.info_contact_dialog)

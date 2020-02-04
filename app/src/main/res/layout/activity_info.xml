@@ -74,12 +74,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/info_title2"
-                android:layout_marginVertical="24dp"
+                android:layout_marginVertical="8dp"
                 android:layout_marginHorizontal="24dp"
                 android:textSize="20dp"
                 android:textFontWeight="600"
                 android:textAlignment="center"
                 android:textColor="@color/colorDark"/>
+
+            <TextView
+                android:id="@+id/data_list_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="24dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:text="@string/info_device_id_label"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/device_id_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:padding="8dp"
+                android:textSize="16dp"
+                style="@style/AppTheme.TextSpan"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -90,9 +117,36 @@
                 android:textSize="16dp"/>
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/info_title3"
+                android:layout_marginVertical="24dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="20dp"
+                android:textFontWeight="600"
+                android:textAlignment="center"
+                android:textColor="@color/colorDark"/>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/info_paragraph6"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/info_paragraph7"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="24dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/info_paragraph8"
                 android:layout_marginVertical="8dp"
                 android:layout_marginHorizontal="24dp"
                 android:textSize="16dp"/>

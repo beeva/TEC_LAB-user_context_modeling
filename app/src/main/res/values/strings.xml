@@ -36,9 +36,25 @@
     <string name="info_paragraph2">Estamos leyendo y guardando datos que se captan a través de los sensores de tu móvil. </string>
     <string name="info_paragraph3">Y <b>todo esto para intentar interpretar si estás en alguna de estas fases</b>: trabajando, en un descanso, en el trayecto al o desde el trabajo o en tu vida privada. </string>
     <string name="info_paragraph4">Échale un ojo a nuestro repositorio en GitHub si te interesa saber más.</string>
-    <string name="info_title2">¿Cómo funciona el modo incógnito?</string>
-    <string name="info_paragraph5">Es una forma de <b>parar el experimento de forma temporal</b>. Durante el tiempo que esté activado, no tomaremos ningún tipo de de dato.</string>
-    <string name="info_paragraph6"><b>Si lo que quieres es dejar de participar</b> en el experimento <b>de forma permanente</b>, danos un toque para sacarte del experimento.</string>
+    <string name="info_title2">¿Qué datos se recogen?</string>
+    <string-array name="info_data_entities">
+        <item>Red wifi a la que el dispositivo esté conectado</item>
+        <item>Redes wifis disponibles</item>
+        <item>Localización gps</item>
+        <item>Aplicaciones utilizadas en el último minuto</item>
+        <item>Dispositivos bluetooth cercanos</item>
+        <item>Dispositivo bluetooth conectado</item>
+        <item>Nivel de batería</item>
+        <item>Tipo de movimiento (caminando, en vehículo...)</item>
+        <item>Tipo de conexión (wifi, red móvil...)</item>
+        <item>Momento del día, facilitado proactivamente por el usuario</item>
+    </string-array>
+    <string name="info_device_id_label">Nº identificador asignado:</string>
+    <string name="info_paragraph5">Todos estos datos se asociarán a un identificador único y universal (UUID) para tu dispositivo, por lo que en ningún momento almacenaremos ningún dato que de forma directa pueda relacionar los datos con una persona concreta.</string>
+    <string name="info_title3">¿Cómo funciona el modo incógnito?</string>
+    <string name="info_paragraph6">Es una forma de <b>parar el experimento de forma temporal</b>. Durante el tiempo que esté activado, no tomaremos ningún tipo de de dato.</string>
+    <string name="info_paragraph7"><b>Si lo que quieres es dejar de participar</b> en el experimento <b>de forma permanente</b>, danos un toque para sacarte del experimento.</string>
+    <string name="info_paragraph8">Necesitaremos que nos facilites tu identificador único para poder borrar tus datos en caso de que lo solicites.</string>
     <string name="info_contact_button">Contactar</string>
     <string name="info_contact_dialog">Envíanos un correo</string>
 </resources>

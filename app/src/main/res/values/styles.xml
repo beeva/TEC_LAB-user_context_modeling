@@ -15,6 +15,10 @@
         <item name="android:background">@color/background</item>
     </style>
 
+    <style name="AppTheme.TextSpan" parent="Widget.AppCompat.TextView">
+        <item name="android:background">@drawable/bg_text_span</item>
+    </style>
+
     <style name="AppTheme.RoundedButton" parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@drawable/bg_rounded_btn_primary</item>
         <item name="android:textColor">@color/colorLight</item>
