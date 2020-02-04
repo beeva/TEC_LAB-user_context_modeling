@@ -3,7 +3,6 @@ package labs.next.argos.libs
 import java.util.*
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 
 class Utils(context: Context) {
 

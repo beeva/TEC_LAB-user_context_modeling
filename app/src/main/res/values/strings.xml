@@ -40,4 +40,5 @@
     <string name="info_paragraph5">Es una forma de <b>parar el experimento de forma temporal</b>. Durante el tiempo que esté activado, no tomaremos ningún tipo de de dato.</string>
     <string name="info_paragraph6"><b>Si lo que quieres es dejar de participar</b> en el experimento <b>de forma permanente</b>, danos un toque para sacarte del experimento.</string>
     <string name="info_contact_button">Contactar</string>
+    <string name="info_contact_dialog">Envíanos un correo</string>
 </resources>

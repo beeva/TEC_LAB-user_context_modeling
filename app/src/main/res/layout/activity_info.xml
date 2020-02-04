@@ -98,7 +98,7 @@
                 android:textSize="16dp"/>
 
             <Button
-                android:id="@+id/contact"
+                android:id="@+id/contact_button"
                 android:layout_width="244dp"
                 android:layout_height="36dp"
                 android:layout_marginTop="18dp"
