@@ -45,7 +45,7 @@
         <item>Dispositivos bluetooth cercanos</item>
         <item>Dispositivo bluetooth conectado</item>
         <item>Nivel de batería</item>
-        <item>Tipo de movimiento (caminando, en vehículo...)</item>
+        <item>Datos del podómetro (caminando, en vehículo...)</item>
         <item>Tipo de conexión (wifi, red móvil...)</item>
         <item>Momento del día, facilitado proactivamente por el usuario</item>
     </string-array>
