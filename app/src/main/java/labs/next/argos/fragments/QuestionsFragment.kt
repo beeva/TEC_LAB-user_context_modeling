@@ -31,7 +31,7 @@ class QuestionsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        database = Database(Utils(view.context).deviceID, false)
+        database = Database(Utils(view.context).deviceID)
         injectMultiQuestion()
     }
 

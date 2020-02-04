@@ -19,7 +19,7 @@ class Database (
     ) {
         val model = hashMapOf(
             "source" to source.name,
-            "sensor" to sensor?.name,
+            "sensor" to if (sensor == null) "null" else sensor?.name,
             "metric" to metric,
             "value" to value,
             "timestamp" to ServerValue.TIMESTAMP
@@ -28,7 +28,6 @@ class Database (
         if (online) {
             val entry = instance.getReference("$user/metrics").push()
             entry.setValue(model)
-            Log.d("user---", entry.toString())
         } else Log.d("Database offline insert", "$sensor ($source) -> $metric: $value")
     }
 
