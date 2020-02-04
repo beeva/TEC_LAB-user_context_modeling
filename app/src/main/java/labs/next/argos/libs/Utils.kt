@@ -3,6 +3,8 @@ package labs.next.argos.libs
 import java.util.*
 import android.content.Context
 import android.content.SharedPreferences
+import java.math.BigInteger
+import java.security.MessageDigest
 
 class Utils(context: Context) {
 
@@ -48,4 +50,10 @@ class Utils(context: Context) {
 
             return res
         }
+
+    fun md5(seed: String) : String {
+        val md = MessageDigest.getInstance("MD5")
+        val digest = md.digest(seed.toByteArray())
+        return BigInteger(1, digest).toString(16)
+    }
 }
