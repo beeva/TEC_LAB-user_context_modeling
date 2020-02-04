@@ -7,15 +7,13 @@ import java.math.BigInteger
 import java.security.MessageDigest
 
 class Utils(context: Context) {
-
     private var pref: SharedPreferences = context.getSharedPreferences("metada", Context.MODE_PRIVATE)
 
     val deviceID: String
         get() {
             val candidate = pref.getString("device_id", null)
 
-            return if (candidate != null) candidate
-            else {
+            return if (candidate == null) {
                 val uuid = UUID.randomUUID()
                 with(pref.edit()) {
                     putString("device_id", uuid.toString())
@@ -23,7 +21,7 @@ class Utils(context: Context) {
                 }
 
                 uuid.toString()
-            }
+            } else candidate
         }
 
     var incognitoDelay: Long
