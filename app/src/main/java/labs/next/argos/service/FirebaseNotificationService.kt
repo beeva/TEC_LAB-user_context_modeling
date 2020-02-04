@@ -39,13 +39,9 @@ class FirebaseNotificationService : FirebaseMessagingService() {
     private fun sendRegistrationToServer(token: String?) {
         // TODO: Implement this method to send token to your app server.
         Log.d(TAG, "sendRegistrationTokenToServer($token)")
-        //var instance: FirebaseDatabase = FirebaseDatabase.getInstance()
         var database = FirebaseDatabase.getInstance().reference
-        var utils = Utils(this)
-        var user = utils.deviceID
-        database.child(user).child("token").setValue(token)
-        //val entry = instance.getReference("$user/token").push()
-        //entry.setValue(token)
+        var user = Utils(this).deviceID
+        database.child("userInfo").child(user).child("token").setValue(token)
     }
 
 

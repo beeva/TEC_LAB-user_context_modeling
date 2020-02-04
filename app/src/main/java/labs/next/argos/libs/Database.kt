@@ -26,7 +26,7 @@ class Database (
         )
 
         if (online) {
-            val entry = instance.getReference("$user/metrics").push()
+            val entry = instance.getReference("data/$user/metrics").push()
             entry.setValue(model)
         } else Log.d("Database offline insert", "$sensor ($source) -> $metric: $value")
     }
@@ -86,6 +86,6 @@ class Database (
     }
 
     fun setValue(ref: String, value: Any) {
-        if (online) instance.getReference("$user/$ref").setValue(value)
+        if (online) instance.getReference("data/$user/$ref").setValue(value)
     }
 }
