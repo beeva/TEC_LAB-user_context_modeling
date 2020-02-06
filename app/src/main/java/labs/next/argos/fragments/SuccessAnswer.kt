@@ -32,9 +32,12 @@ class SuccessAnswer : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        back_to_questions.setOnClickListener { callback.onBackButtonListener() }
+    }
 
-        back_to_questions.setOnClickListener {
-            callback.onBackButtonListener()
-        }
+    override fun onResume() {
+        super.onResume()
+
+        callback.onBackButtonListener()
     }
 }

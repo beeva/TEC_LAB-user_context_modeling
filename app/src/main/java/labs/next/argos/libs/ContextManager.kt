@@ -1,8 +1,8 @@
 package labs.next.argos.libs
 
-import android.content.Context
 import android.os.Build
-import android.util.Log
+import android.content.Context
+
 import labs.next.argos.sensors.*
 
 class ContextManager {
@@ -15,7 +15,6 @@ class ContextManager {
     private var location: Location
     private var network: Network
     private var usageStats: UsageStats
-    //private var userActivity: UserActivity
     private var wifi: Wifi
     private var movement: Movement
 
@@ -30,13 +29,12 @@ class ContextManager {
         location = Location(context, minRefreshRate)
         network = Network(context, minRefreshRate)
         usageStats = UsageStats(context, minRefreshRate)
-        //userActivity = UserActivity(context, minRefreshRate)
         wifi = Wifi(context, location, minRefreshRate)
         movement = Movement(context, minRefreshRate)
     }
 
     fun startListening() {
-        database.setValue("device", Build.MODEL)
+        database.saveDeviceModel(Build.MODEL)
 
         battery.start { (status, level) ->
             database.saveBattery("current_level", level.toString())
@@ -45,9 +43,8 @@ class ContextManager {
 
         if (bluetooth.isAvailable()){
             bluetooth.start { (nearDevices, connectedDevices) ->
-                database.saveBluetooth("near_devices", nearDevices.toString())
-                database.saveBluetooth("connected_device", connectedDevices.toString())
-                //database.saveBluetooth("connected_device_type", bluetooth.connectionType.toString())
+                database.saveBluetooth("near_devices", secure(nearDevices))
+                database.saveBluetooth("connected_device", secure(connectedDevices))
             }
         }
 
@@ -57,7 +54,6 @@ class ContextManager {
                 "lat" to lastLocation?.get("lat"),
                 "long" to lastLocation?.get("long")
             )
-
 
             if (lastLocation != null && lastLocation.isNotEmpty())
                 database.saveLocation("current_location", location)
@@ -73,17 +69,12 @@ class ContextManager {
                 database.saveUsage("current_stats", stats.toString())
         }
 
-        /*userActivity.start { activity ->
-            if (activity != null && activity.isNotEmpty())
-                database.saveActivity("current_activity", activity.toString())
-        }*/
-
         wifi.start { (nearNetworks, connectedNetwork) ->
             if (connectedNetwork != null)
-                database.saveWifi("current_network", connectedNetwork)
+                database.saveWifi("current_network", secure(connectedNetwork))
 
             if (nearNetworks != null && nearNetworks.isNotEmpty())
-                database.saveWifi("available_networks", nearNetworks)
+                database.saveWifi("available_networks", secure(nearNetworks))
         }
 
         if (movement.isAvailable()){
@@ -91,8 +82,14 @@ class ContextManager {
                 database.saveMovement("moving", state.toString())
             }
         }
+    }
 
-
+    private fun secure(raw: Any) : Any {
+        return when (raw) {
+            is String -> Utils.getHash(raw)
+            is Iterable<*> -> raw.map { Utils.getHash(it as String) }
+            else -> ""
+        }
     }
 
     fun stopListening() {
@@ -101,7 +98,6 @@ class ContextManager {
         location.stop()
         network.stop()
         usageStats.stop()
-        //userActivity.stop()
         wifi.stop()
         movement.stop()
     }

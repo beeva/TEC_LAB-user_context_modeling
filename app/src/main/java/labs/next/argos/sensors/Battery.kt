@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.BroadcastReceiver
 import android.os.BatteryManager
+
 import kotlinx.coroutines.*
 
 class Battery(

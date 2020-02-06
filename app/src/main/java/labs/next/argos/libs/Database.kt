@@ -9,7 +9,7 @@ class Database (
     var user: String,
     var online: Boolean = true
 ) {
-    private var instance: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private var instance: FirebaseDatabase = FirebaseDatabase.getInstance("https://next-lab-usercontext-poc-es-4ba7d.firebaseio.com/")
 
     private fun saveMetric(
         source: ContextSource,
@@ -26,7 +26,7 @@ class Database (
         )
 
         if (online) {
-            val entry = instance.getReference("data/$user/metrics").push()
+            val entry = instance.getReference("data/$user").push()
             entry.setValue(model)
         } else Log.d("Database offline insert", "$sensor ($source) -> $metric: $value")
     }
@@ -85,7 +85,11 @@ class Database (
             ContextSensor.MOVEMENT, metric, value)
     }
 
-    fun setValue(ref: String, value: Any) {
-        if (online) instance.getReference("data/$user/$ref").setValue(value)
+    fun saveDeviceModel(model: String) {
+        if (online) instance.getReference("info/$user/model").setValue(model)
+    }
+
+    fun saveUserToken(token: String) {
+        if (online) instance.getReference("info/$user/token").setValue(token)
     }
 }

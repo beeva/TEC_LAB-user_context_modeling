@@ -2,6 +2,7 @@ package labs.next.argos.sensors
 
 import android.app.usage.UsageStatsManager
 import android.content.Context
+
 import kotlinx.coroutines.*
 
 class UsageStats (

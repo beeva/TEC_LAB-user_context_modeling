@@ -17,9 +17,11 @@ class Wifi (
 ) : Sensor<Pair<ArrayList<String>, String>> {
     private val connectedNetwork: String
         get (){
-            val wifiInfo = wifiManager.connectionInfo;
-            if (wifiInfo.supplicantState == SupplicantState.COMPLETED)
-                return wifiInfo.ssid
+            val wifiInfo = wifiManager.connectionInfo
+            if (wifiInfo.supplicantState == SupplicantState.COMPLETED && wifiInfo.ssid.length > 2) {
+                return wifiInfo.ssid.substring(1, wifiInfo.ssid.length - 1)
+            }
+
             return "null"
         }
 

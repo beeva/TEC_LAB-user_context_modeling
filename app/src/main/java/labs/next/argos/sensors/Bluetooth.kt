@@ -1,11 +1,12 @@
 package labs.next.argos.sensors
 
-import android.bluetooth.*
 import android.util.Log
+import android.bluetooth.*
 import android.content.Intent
 import android.content.Context
 import android.content.IntentFilter
 import android.content.BroadcastReceiver
+
 import kotlinx.coroutines.*
 
 class Bluetooth (
@@ -23,7 +24,6 @@ class Bluetooth (
     private var adapter: BluetoothAdapter? = manager.adapter
 
 
-    // listen to connections and disconnections from bluetooth service
     private val profileListener = object : BluetoothProfile.ServiceListener {
         override fun onServiceDisconnected(profile: Int) {
             connectedDevices.clear()
@@ -56,22 +56,19 @@ class Bluetooth (
                 }
             }
 
-            devicesList.forEach { device -> checkDevice(device, currentProfile) }
+            devicesList.forEach { device -> addDevice(device, currentProfile) }
         }
     }
 
-    // listen to connections and disconnections from bluetooth devices
     private var btDeviceReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             when(intent?.action) {
                 BluetoothDevice.ACTION_ACL_CONNECTED -> {
                     val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as BluetoothDevice
-                    // add device
-                    checkDevice(device, "NONE")
+                    addDevice(device, "NONE")
                 }
                 BluetoothDevice.ACTION_ACL_DISCONNECTED -> {
                     val device: BluetoothDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE) as BluetoothDevice
-                    // remove device
                     removeDevice(device)
                 }
 
@@ -98,7 +95,6 @@ class Bluetooth (
         this.onResult = onResult
         this.run = true
 
-        // register filters and receivers
         val ifScanReceiver = IntentFilter(BluetoothDevice.ACTION_FOUND)
         context.registerReceiver(scanReceiver, ifScanReceiver)
         val ifBtDeviceReceiver = IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED)
@@ -118,7 +114,6 @@ class Bluetooth (
 
         try {
             adapter?.cancelDiscovery()
-            // unregister receivers
             context.unregisterReceiver(btDeviceReceiver)
             context.unregisterReceiver(scanReceiver)
         } catch (e: Exception) {
@@ -133,7 +128,7 @@ class Bluetooth (
 
                 // get gattServer devices
                 var gattServerList = manager.getConnectedDevices(BluetoothProfile.GATT_SERVER)
-                gattServerList.forEach { device -> checkDevice(device, "GATT_SERVER")}
+                gattServerList.forEach { device -> addDevice(device, "GATT_SERVER")}
 
                 Thread.sleep(minRefreshRate)
                 if (nearDevices.isNotEmpty()) {
@@ -145,19 +140,15 @@ class Bluetooth (
         }
     }
 
-
-    // check if a device is already connected
     private fun isDeviceConnected(device: BluetoothDevice): Boolean {
         return connectedDevices.any { it.device.address == device.address }
     }
 
     private fun addProfile(id: String, pfl: String) {
-        connectedDevices.forEach {
-            if (it.id == id) it.addProfile(pfl)
-        }
+        connectedDevices.forEach { if (it.id == id) it.addProfile(pfl) }
     }
 
-    private fun checkDevice(device: BluetoothDevice, pfl: String){
+    private fun addDevice(device: BluetoothDevice, pfl: String){
         if (isDeviceConnected(device)) addProfile(device.address, pfl)
         else connectedDevices.add(BDevice(mutableListOf(pfl), device))
     }

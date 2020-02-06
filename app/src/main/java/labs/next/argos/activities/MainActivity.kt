@@ -3,6 +3,7 @@ package labs.next.argos.activities
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import android.content.Intent
 import android.os.Build
@@ -18,6 +19,7 @@ import labs.next.argos.fragments.IncognitoModeViewFragment
 import labs.next.argos.fragments.IncognitoModeBannerFragment
 import labs.next.argos.fragments.RequiredPermissionsFragment
 import labs.next.argos.libs.PermissionChecker
+import labs.next.argos.libs.Utils
 
 class MainActivity :
     FragmentActivity(),
@@ -27,12 +29,10 @@ class MainActivity :
     private lateinit var serviceManager: ServiceManager
     private lateinit var requiredPermissions: HashMap<String, Int>
 
-    private val channelID = arrayOf("ForegroundService", "Daily activity")
-    private val channelName = arrayOf("Context Measure Service", "Daily activity")
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         setActionBar(toolbar)
         info_button.setOnClickListener {
@@ -40,11 +40,10 @@ class MainActivity :
             startActivity(intent)
         }
 
+        Utils.initChannels(this)
         serviceManager = ServiceManager(this) {
             injectUI()
         }
-
-        createNotificationsChannels()
 
         requiredPermissions = hashMapOf(
             Manifest.permission.BLUETOOTH to 1,
@@ -148,21 +147,6 @@ class MainActivity :
                 QuestionsFragment()
             )
             commit()
-        }
-    }
-
-    private fun createNotificationsChannels(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Create channel to show notifications.
-            for (i in channelID.indices) {
-                val notificationManager = getSystemService(NotificationManager::class.java)
-                val createNotificationChannel = notificationManager?.createNotificationChannel(
-                    NotificationChannel(
-                        channelID[i],
-                        channelName[i], NotificationManager.IMPORTANCE_DEFAULT
-                    )
-                )
-            }
         }
     }
 }

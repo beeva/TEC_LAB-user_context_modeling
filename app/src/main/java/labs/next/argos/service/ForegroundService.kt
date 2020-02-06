@@ -2,7 +2,6 @@ package labs.next.argos.service
 
 import android.app.*
 import android.util.Log
-import android.os.Build
 import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
@@ -15,9 +14,7 @@ import androidx.core.app.NotificationCompat
 import labs.next.argos.R
 import labs.next.argos.libs.ContextManager
 import labs.next.argos.activities.MainActivity
-
-// accion para lanzar notificaciones
-const val ACTION_SETNOTIFICATION = "labs.next.argos.SETNOTIFICATION"
+import labs.next.argos.libs.Utils
 
 class ForegroundService : Service() {
     var isListening : Boolean = false
@@ -25,15 +22,13 @@ class ForegroundService : Service() {
     private lateinit var contextManager: ContextManager
     private lateinit var listenCallback : (Boolean) -> Unit
 
+    private val channelID = Utils.getClassChannel(this.javaClass)
     private var binder : ServiceBinder = ServiceBinder()
     inner class ServiceBinder : Binder() {
         fun getService() : ForegroundService {
             return this@ForegroundService
         }
     }
-
-    private var channelName = "Context Measure Service"
-    private var channelID = "ForegroundService"
 
     companion object {
         var isAlive: Boolean = false
@@ -82,32 +77,12 @@ class ForegroundService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         createNotification()
 
-
         val listenOnBoot = intent?.getBooleanExtra("listenOnBoot", true)
         if (listenOnBoot == null || listenOnBoot) startListening()
 
         return START_STICKY
     }
 
-    /*private fun registersAllNotificationChannels(){
-        // registrar todos los canales de notificaciones
-        for (i in 0..channelsID.size-1){
-            createNotificationChannel(channelsID.get(i), tags.get(i))
-        }
-
-    }
-
-    // registrar un canal de notificaciones
-    private fun createNotificationChannel(channel: String, tag: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Foreground Service notification
-            val serviceChannel = NotificationChannel(channel, tag, NotificationManager.IMPORTANCE_DEFAULT)
-            val manager = getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(serviceChannel)
-        }
-    }*/
-
-    // crear y lanzar notificacion
     private fun createNotification() {
         val notificationIntent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)

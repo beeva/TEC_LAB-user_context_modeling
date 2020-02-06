@@ -4,9 +4,9 @@ import android.util.Log
 import android.content.Context
 import android.location.LocationManager
 
-import kotlinx.coroutines.*
-
 import com.google.android.gms.location.*
+
+import kotlinx.coroutines.*
 
 class Location(
     override var context: Context,
