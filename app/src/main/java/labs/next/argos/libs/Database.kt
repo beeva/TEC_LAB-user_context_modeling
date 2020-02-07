@@ -92,4 +92,8 @@ class Database (
     fun saveUserToken(token: String) {
         if (online) instance.getReference("info/$user/token").setValue(token)
     }
+
+    fun saveAuthID(authID: String) {
+        if (online) instance.getReference("info/$user/authID").setValue(authID)
+    }
 }

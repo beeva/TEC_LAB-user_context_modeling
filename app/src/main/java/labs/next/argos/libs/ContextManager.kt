@@ -70,8 +70,9 @@ class ContextManager {
         }
 
         wifi.start { (nearNetworks, connectedNetwork) ->
-            if (connectedNetwork != null)
+            if (connectedNetwork != null || connectedNetwork != "") {
                 database.saveWifi("current_network", secure(connectedNetwork))
+            } else database.saveWifi("current_network", false)
 
             if (nearNetworks != null && nearNetworks.isNotEmpty())
                 database.saveWifi("available_networks", secure(nearNetworks))

@@ -1,12 +1,8 @@
 package labs.next.argos.activities
 
 import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.os.Bundle
 import android.content.Intent
-import android.os.Build
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -18,6 +14,7 @@ import labs.next.argos.fragments.QuestionsFragment
 import labs.next.argos.fragments.IncognitoModeViewFragment
 import labs.next.argos.fragments.IncognitoModeBannerFragment
 import labs.next.argos.fragments.RequiredPermissionsFragment
+import labs.next.argos.libs.Auth
 import labs.next.argos.libs.PermissionChecker
 import labs.next.argos.libs.Utils
 
@@ -32,7 +29,6 @@ class MainActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         setActionBar(toolbar)
         info_button.setOnClickListener {
@@ -104,6 +100,8 @@ class MainActivity :
     }
 
     private fun injectUI() {
+        Auth.signIn(Utils(this).deviceID)
+
         injectIncognitoModeBanner(serviceManager.incognito)
         if (serviceManager.incognito) injectIncognitoModeFragment()
         else injectQuestionsFragment()

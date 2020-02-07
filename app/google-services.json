@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1089106423836",
+    "firebase_url": "https://next-lab-usercontext-poc-es.firebaseio.com",
+    "project_id": "next-lab-usercontext-poc-es",
+    "storage_bucket": "next-lab-usercontext-poc-es.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089106423836:android:16de2dc43d6bcf2c39afd9",
+        "android_client_info": {
+          "package_name": "labs.next.contextmeasurement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1089106423836-ldog0l645jddq06l5i7v5ecerormc0tr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXMW6dbsp_iqUSV5nFebr-1sGKrVVCIEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1089106423836-ldog0l645jddq06l5i7v5ecerormc0tr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
