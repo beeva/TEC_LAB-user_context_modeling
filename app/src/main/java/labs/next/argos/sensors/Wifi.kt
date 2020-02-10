@@ -12,10 +12,9 @@ import kotlinx.coroutines.*
 
 class Wifi (
     override var context: Context,
-    var location: Location,
     override var minRefreshRate: Long = 5000
-) : Sensor<Pair<ArrayList<String>, String>> {
-    private val connectedNetwork: String
+) : Sensor<Pair<ArrayList<String>, String?>> {
+    private val connectedNetwork: String?
         get (){
             val info = wifiManager.connectionInfo
             if (info.supplicantState == SupplicantState.COMPLETED) {
@@ -23,12 +22,12 @@ class Wifi (
                 if (ssid != null && ssid.length > 2) return ssid.substring(1, ssid.length - 1)
             }
 
-            return ""
+            return null
         }
 
     private var run: Boolean = false
     private var scope: CoroutineScope = MainScope()
-    private lateinit var callback: (Pair<ArrayList<String>, String>) -> Unit
+    private lateinit var callback: (Pair<ArrayList<String>, String?>) -> Unit
 
     private var wifiManager: WifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
     private var wifiScanReceiver = object : BroadcastReceiver() {
@@ -55,7 +54,7 @@ class Wifi (
         return wifiManager.isWifiEnabled
     }
 
-    override fun start(onResult: (res: Pair<ArrayList<String>, String>) -> Unit) {
+    override fun start(onResult: (res: Pair<ArrayList<String>, String?>) -> Unit) {
         callback = onResult
         run = true
 
@@ -78,9 +77,9 @@ class Wifi (
     private suspend fun loop() {
         withContext(Dispatchers.IO) {
             while(run) {
-                while (isAvailable() && location.isAvailable() && !wifiManager.startScan()) {
+                while (isAvailable() && !wifiManager.startScan()) {
                     Log.d("Wifi", "Retrying...")
-                    Thread.sleep(5000)
+                    Thread.sleep(minRefreshRate)
                 }
 
                 Thread.sleep(minRefreshRate)

@@ -29,7 +29,7 @@ class ContextManager {
         location = Location(context, minRefreshRate)
         network = Network(context, minRefreshRate)
         usageStats = UsageStats(context, minRefreshRate)
-        wifi = Wifi(context, location, minRefreshRate)
+        wifi = Wifi(context, minRefreshRate)
         movement = Movement(context, minRefreshRate)
     }
 
@@ -118,13 +118,13 @@ class ContextManager {
     }
 
     private fun startWifi() {
-        if (!wifi.isAvailable()) {
+        if (!wifi.isAvailable() || !location.isAvailable()) {
             database.saveWifi("available", false)
             return
         }
 
         wifi.start { (nearNetworks, connectedNetwork) ->
-            if (connectedNetwork != null || connectedNetwork != "") {
+            if (connectedNetwork != null) {
                 database.saveWifi("current_network", encryptValue(connectedNetwork))
             } else database.saveWifi("current_network", false)
 
