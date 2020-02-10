@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_success_answer.*
 
 import labs.next.argos.R
+import java.util.*
+import kotlin.concurrent.timerTask
 
 class SuccessAnswer : Fragment() {
     private lateinit var callback: BackButtonListener
@@ -35,9 +37,8 @@ class SuccessAnswer : Fragment() {
         back_to_questions.setOnClickListener { callback.onBackButtonListener() }
     }
 
-    override fun onResume() {
-        super.onResume()
-
+    override fun onPause() {
+        super.onPause()
         callback.onBackButtonListener()
     }
 }

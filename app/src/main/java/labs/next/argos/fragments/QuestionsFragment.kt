@@ -17,7 +17,6 @@ class QuestionsFragment :
     MultiQuestionFragment.MultiQuestionListener,
     SuccessAnswer.BackButtonListener
 {
-    private var currentState : ContextState? = null
     private lateinit var database: Database
 
     override fun onCreateView(

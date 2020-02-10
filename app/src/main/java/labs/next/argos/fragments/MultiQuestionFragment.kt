@@ -1,6 +1,7 @@
 package labs.next.argos.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.LayoutInflater
