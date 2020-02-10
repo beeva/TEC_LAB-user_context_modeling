@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.Context
 import android.content.IntentFilter
 import android.content.BroadcastReceiver
+import android.os.Build
 
 import kotlinx.coroutines.*
 
@@ -88,7 +89,9 @@ class Bluetooth (
     }
 
     override fun isAvailable(): Boolean {
-        return adapter?.isEnabled ?: false
+        val version = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+        val enabled = adapter?.isEnabled ?: false
+        return version && enabled
     }
 
     override fun start(onResult: (res: Pair<ArrayList<String>, ArrayList<String>>) -> Unit) {

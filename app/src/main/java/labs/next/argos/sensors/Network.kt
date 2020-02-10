@@ -28,7 +28,7 @@ class Network(
     }
 
     override fun isAvailable(): Boolean {
-        return true
+        return connectivityManager.isDefaultNetworkActive
     }
 
     override fun start(onResult: (String) -> Unit) {
