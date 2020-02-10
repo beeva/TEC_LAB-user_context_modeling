@@ -9,7 +9,7 @@ class Database (
     var user: String,
     var online: Boolean = true
 ) {
-    private var instance: FirebaseDatabase = FirebaseDatabase.getInstance("https://next-lab-usercontext-poc-es-4ba7d.firebaseio.com/")
+    private var instance: FirebaseDatabase = FirebaseDatabase.getInstance()
 
     private fun saveMetric(
         source: ContextSource,
