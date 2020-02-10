@@ -33,59 +33,7 @@ class ContextManager {
         movement = Movement(context, minRefreshRate)
     }
 
-    fun startListening() {
-        database.saveDeviceModel(Build.MODEL)
-
-        battery.start { (status, level) ->
-            database.saveBattery("current_level", level.toString())
-            database.saveBattery("is_charging", status.toString())
-        }
-
-        if (bluetooth.isAvailable()){
-            bluetooth.start { (nearDevices, connectedDevices) ->
-                database.saveBluetooth("near_devices", secure(nearDevices))
-                database.saveBluetooth("connected_device", secure(connectedDevices))
-            }
-        }
-
-
-        location.start { lastLocation ->
-            val location = hashMapOf(
-                "lat" to lastLocation?.get("lat"),
-                "long" to lastLocation?.get("long")
-            )
-
-            if (lastLocation != null && lastLocation.isNotEmpty())
-                database.saveLocation("current_location", location)
-        }
-
-
-        network.start { connectionType ->
-            database.saveNetwork("connection_type", connectionType)
-        }
-
-        usageStats.start { stats ->
-            if (stats != null && stats.isNotEmpty())
-                database.saveUsage("current_stats", stats.toString())
-        }
-
-        wifi.start { (nearNetworks, connectedNetwork) ->
-            if (connectedNetwork != null || connectedNetwork != "") {
-                database.saveWifi("current_network", secure(connectedNetwork))
-            } else database.saveWifi("current_network", false)
-
-            if (nearNetworks != null && nearNetworks.isNotEmpty())
-                database.saveWifi("available_networks", secure(nearNetworks))
-        }
-
-        if (movement.isAvailable()){
-            movement.start { state ->
-                database.saveMovement("moving", state.toString())
-            }
-        }
-    }
-
-    private fun secure(raw: Any) : Any {
+    private fun encryptValue(raw: Any) : Any {
         return when (raw) {
             is String -> Utils.getHash(raw)
             is Iterable<*> -> raw.map { Utils.getHash(it as String) }
@@ -93,7 +41,114 @@ class ContextManager {
         }
     }
 
+    private fun startBattery() {
+        if (!battery.isAvailable()) {
+            database.saveBattery("available", false)
+            return
+        }
+
+        battery.start { (status, level) ->
+            database.saveBattery("current_level", level.toString())
+            database.saveBattery("is_charging", status.toString())
+        }
+    }
+
+    private fun startBluetooth() {
+        if (!bluetooth.isAvailable()) {
+            database.saveBluetooth("available", false)
+            return
+        }
+
+        bluetooth.start { (nearDevices, connectedDevices) ->
+            database.saveBluetooth("near_devices", encryptValue(nearDevices))
+            database.saveBluetooth("connected_device", encryptValue(connectedDevices))
+        }
+    }
+
+    private fun startLocation() {
+        if (!location.isAvailable()) {
+            database.saveLocation("available", false)
+            return
+        }
+
+        location.start { lastLocation ->
+            if (lastLocation != null && lastLocation.isNotEmpty()) {
+                database.saveLocation(
+                    "current_location", hashMapOf(
+                        "lat" to lastLocation?.get("lat"),
+                        "long" to lastLocation?.get("long")
+                    )
+                )
+            }
+        }
+    }
+
+    private fun startMovement() {
+        if (!movement.isAvailable()) {
+            database.saveMovement("available", false)
+            return
+        }
+
+        movement.start { state ->
+            database.saveMovement("moving", state.toString())
+        }
+    }
+
+    private fun startNetwork() {
+        if (!network.isAvailable()) {
+            database.saveNetwork("available", false)
+            return
+        }
+
+        network.start { connectionType ->
+            database.saveNetwork("connection_type", connectionType)
+        }
+    }
+
+    private fun startUsageStats() {
+        if (!usageStats.isAvailable()) {
+            database.saveUsage("available", false)
+            return
+        }
+
+        usageStats.start { stats ->
+            if (stats != null && stats.isNotEmpty())
+                database.saveUsage("current_stats", stats.toString())
+        }
+    }
+
+    private fun startWifi() {
+        if (!wifi.isAvailable()) {
+            database.saveWifi("available", false)
+            return
+        }
+
+        wifi.start { (nearNetworks, connectedNetwork) ->
+            if (connectedNetwork != null || connectedNetwork != "") {
+                database.saveWifi("current_network", encryptValue(connectedNetwork))
+            } else database.saveWifi("current_network", false)
+
+            if (nearNetworks != null && nearNetworks.isNotEmpty())
+                database.saveWifi("available_networks", encryptValue(nearNetworks))
+        }
+    }
+
+    fun startListening() {
+        database.saveDeviceModel(Build.MODEL)
+        database.saveIncognito(false)
+
+        startBattery()
+        startBluetooth()
+        startLocation()
+        startMovement()
+        startNetwork()
+        startUsageStats()
+        startWifi()
+    }
+
     fun stopListening() {
+        database.saveIncognito(true)
+
         battery.stop()
         bluetooth.stop()
         location.stop()

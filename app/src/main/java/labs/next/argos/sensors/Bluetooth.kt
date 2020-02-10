@@ -88,7 +88,7 @@ class Bluetooth (
     }
 
     override fun isAvailable(): Boolean {
-        return adapter?.isEnabled != null
+        return adapter?.isEnabled ?: false
     }
 
     override fun start(onResult: (res: Pair<ArrayList<String>, ArrayList<String>>) -> Unit) {

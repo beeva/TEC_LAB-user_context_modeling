@@ -7,13 +7,13 @@ import android.net.ConnectivityManager
 
 import kotlinx.coroutines.*
 
+const val CELL: String = "cellular"
+const val WIFI: String = "wifi"
+
 class Network(
     override var context: Context,
     override var minRefreshRate: Long = 5000
 ) : Sensor<String> {
-    var CELL: String = "cellular"
-    var WIFI: String = "wifi"
-
     private var run: Boolean = false
     private var scope: CoroutineScope = MainScope()
     private lateinit var callback: (String) -> Unit

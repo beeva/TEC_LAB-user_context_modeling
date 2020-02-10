@@ -34,7 +34,7 @@ class Database (
     fun saveUserAnswer(metric: String, value: Any) {
         saveMetric(
             ContextSource.USER,
-            null, metric, value)
+            ContextSensor.ACTIVITY, metric, value)
     }
 
     fun saveBattery(metric: String, value: Any) {
@@ -67,12 +67,6 @@ class Database (
             ContextSensor.USAGE, metric, value)
     }
 
-    fun saveActivity(metric: String, value: Any) {
-        saveMetric(
-            ContextSource.SENSOR,
-            ContextSensor.ACTIVITY, metric, value)
-    }
-
     fun saveWifi(metric: String, value: Any) {
         saveMetric(
             ContextSource.SENSOR,
@@ -83,6 +77,12 @@ class Database (
         saveMetric(
             ContextSource.SENSOR,
             ContextSensor.MOVEMENT, metric, value)
+    }
+
+    fun saveIncognito(value: Boolean) {
+        saveMetric(
+            ContextSource.USER,
+            ContextSensor.INCOGNITO, "toggle_to", value)
     }
 
     fun saveDeviceModel(model: String) {
